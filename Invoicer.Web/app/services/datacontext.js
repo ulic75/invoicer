@@ -2,14 +2,29 @@
     'use strict';
 
     var serviceId = 'datacontext';
-    angular.module('app').factory(serviceId, ['common', datacontext]);
+    angular.module('app').factory(serviceId, ['common', 'config', 'entityManagerFactory', datacontext]);
 
-    function datacontext(common) {
-        var $q = common.$q;
+    function datacontext(common, config, emFactory) {
+    	var EntityQuery = breeze.EntityQuery;
+    	var getLogFn = common.logger.getLogFn;
+    	var log = getLogFn(serviceId);
+    	var logError = getLogFn(serviceId, 'error');
+    	var logSuccess = getLogFn(serviceId, 'success');
+    	var manager = emFactory.newManager();
+    	var primePromise = false;
+    	var $q = common.$q;
+
+    	var entityNames = {
+    		client: 'Client',
+    		lineitemdescription: 'LineItemDescription'
+    	};
 
         var service = {
             getPeople: getPeople,
-            getMessageCount: getMessageCount
+            getMessageCount: getMessageCount,
+            getClientPartials: getClientPartials,
+            getInvoices: getInvoices,
+			prime: prime
         };
 
         return service;
@@ -27,6 +42,98 @@
                 { firstName: 'Haley', lastName: 'Guthrie', age: 35, location: 'Wyoming' }
             ];
             return $q.when(people);
+        }
+
+        function getClientPartials() {
+        	var orderBy = 'alias';
+        	var clients = [];
+
+        	return EntityQuery.from('Clients')
+				.select('id, name, alias')
+				.orderBy(orderBy)
+				.toType('Client')
+				.using(manager).execute()
+				.then(querySucceeded, _queryFailed);
+
+        	function querySucceeded(data) {
+        		clients = data.results;
+        		log('Retrieved [Client Partials] from remote data source', clients.length, true);
+        		return clients;
+        	}
+        }
+
+        function getInvoices() {
+        	var orderBy = 'id';
+        	var invoices = [];
+
+        	return EntityQuery.from('Invoices')
+				.orderBy(orderBy)
+				.using(manager).execute()
+				.then(querySucceeded, _queryFailed);
+
+        	function querySucceeded(data) {
+        		invoices = data.results;
+        		log('Retrieved [Invoices] from remote data source', invoices.length, true);
+        		return invoices;
+        	}
+        }
+
+        function getLookups() {
+        	return EntityQuery.from('Lookups')
+				.using(manager).execute()
+				.then(querySucceeded, _queryFailed);
+
+        	function querySucceeded(data) {
+        		log('Retrieved [Lookups]', data, true);
+        		return true;
+        	}
+        }
+
+        function prime() {
+        	if (primePromise) return primePromise;
+
+        	primePromise = $q.all([getLookups(), getClientPartials()])
+				.then(extendMetadata)
+				.then(success);
+        	return primePromise;
+
+        	function success() {
+        		setLookups();
+        		log('Primed the data');
+        	};
+
+        	function extendMetadata() {
+        		var metadataStore = manager.metadataStore;
+        		var types = metadataStore.getEntityTypes();
+        		types.forEach(function (type) {
+        			if (type instanceof breeze.EntityType) {
+						set(type.shortName, type)
+        			}
+        		});
+
+        		function set(resourceName, entityName) {
+        			metadataStore.setEntityTypeForResourceName(resourceName, entityName);
+        		}
+        	};
+        }
+
+        function setLookups() {
+        	service.lookupCachedData = {
+        		lineitemdescriptions: _getAllLocal(entityNames.lineitemdescription, 'description')
+        	};
+        }
+
+        function _getAllLocal(resource, ordering) {
+        	return EntityQuery.from(resource)
+				.orderBy(ordering)
+				.using(manager)
+				.executeLocally();
+        }
+
+        function _queryFailed(error) {
+        	var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
+        	logError(msg, error);
+        	throw error;
         }
     }
 })();
