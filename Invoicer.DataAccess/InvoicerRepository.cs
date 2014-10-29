@@ -26,6 +26,14 @@ namespace Invoicer.DataAccess {
 			get { return Context.Sessions; }
 		}
 
+		public IQueryable<Invoice> Invoices {
+			get { return Context.Invoices; }
+		}
+
+		public IQueryable<LineItemDescription> LineItemDescriptions {
+			get { return Context.LineItemDescriptions; }
+		}
+
 		public IQueryable<Client> Clients {
 			get { return Context.Clients; }
 		}

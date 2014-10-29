@@ -30,15 +30,35 @@
                     }
                 }
             }, {
-                url: '/admin',
-                config: {
-                    title: 'admin',
-                    templateUrl: 'app/admin/admin.html',
-                    settings: {
-                        nav: 2,
-                        content: '<i class="fa fa-lock"></i> Admin'
-                    }
-                }
+            	url: '/clients',
+            	config: {
+            		title: 'clients',
+            		templateUrl: 'app/clients/clients.html',
+            		settings: {
+            			nav: 2,
+            			content: '<i class="fa fa-user"></i> Clients'
+            		}
+            	}
+            }, {
+            	url: '/invoices',
+            	config: {
+            		title: 'invoices',
+            		templateUrl: 'app/invoices/invoices.html',
+            		settings: {
+            			nav: 2,
+            			content: '<i class="fa fa-file"></i> Invoices'
+            		}
+            	}
+            }, {
+            	url: '/admin',
+            	config: {
+            		title: 'admin',
+            		templateUrl: 'app/admin/admin.html',
+            		settings: {
+            			nav: 3,
+            			content: '<i class="fa fa-lock"></i> Admin'
+            		}
+            	}
             }
         ];
     }

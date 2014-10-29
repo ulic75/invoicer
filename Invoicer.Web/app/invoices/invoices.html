@@ -1,0 +1,23 @@
+﻿<section class="mainbar" data-ng-controller="invoices as vm">
+	<section class="matter">
+		<div class="container">
+			<div class="row">
+				<div class="widget wlightblue">
+					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.invoices.length}}"></div>
+					<div class="widget-content user">
+						<div class="padd" data-ng-repeat="i in vm.invoices">
+							<div class="user-details">
+								<h3>{{i.id}}</h3>
+								<h6>{{i.client.name}}</h6>
+								<h6>{{i.date}}</h6>
+							</div>
+						</div>
+					</div>
+					<div class="widget-foot">
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>

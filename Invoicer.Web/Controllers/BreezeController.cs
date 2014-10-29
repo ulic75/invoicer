@@ -28,6 +28,11 @@ namespace Invoicer.Web.Controllers {
 		}
 
 		[HttpGet]
+		public IQueryable<Invoice> Invoices() {
+			return _repository.Invoices;
+		}
+
+		[HttpGet]
 		public IQueryable<Client> Clients() {
 			return _repository.Clients;
 		}
@@ -57,7 +62,8 @@ namespace Invoicer.Web.Controllers {
 			var rooms = _repository.Rooms;
 			var tracks = _repository.Tracks;
 			var timeslots = _repository.TimeSlots;
-			return new { rooms, tracks, timeslots };
+			var lineitemdescriptions = _repository.LineItemDescriptions;
+			return new { rooms, tracks, timeslots, lineitemdescriptions };
 		}
 
 		// Diagnostic

@@ -1,0 +1,22 @@
+﻿<section class="mainbar" data-ng-controller="clients as vm">
+	<section class="matter">
+		<div class="container">
+			<div class="row">
+				<div class="widget worange">
+					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.clients.length}}"></div>
+					<div class="widget-content user">
+						<div class="padd" data-ng-repeat="c in vm.clients">
+							<div class="user-details">
+								<h3>{{c.name}}</h3>
+								<h6>{{c.alias}}</h6>
+							</div>
+						</div>
+					</div>
+					<div class="widget-foot">
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
