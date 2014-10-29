@@ -7,8 +7,16 @@
 					<div class="widget-content user">
 						<div class="padd" data-ng-repeat="c in vm.clients">
 							<div class="user-details">
-								<h3>{{c.name}}</h3>
-								<h6>{{c.alias}}</h6>
+								<div class="pull-left">
+									<h3>{{c.name}}</h3>
+									<h6>{{c.alias}}</h6>
+									<small class="text-subtle">{{c.billingEmail}}</small>
+								</div>
+								<div class="pull-right hidden-xs">
+									<small class="right">{{c.address1}}</small>
+									<small class="right">{{c.address2}}</small>
+									<small class="right">{{c.city}}, {{c.state}} {{c.postalcode}}</small>
+								</div>
 							</div>
 						</div>
 					</div>

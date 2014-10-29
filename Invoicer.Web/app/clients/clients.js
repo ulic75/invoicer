@@ -19,7 +19,7 @@
 		}
 
 		function getClients() {
-			return datacontext.getClientPartials().then(function (data) {
+			return datacontext.getClients().then(function (data) {
 				return vm.clients = data;
 			});
 		}

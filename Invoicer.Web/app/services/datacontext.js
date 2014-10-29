@@ -22,7 +22,7 @@
         var service = {
             getPeople: getPeople,
             getMessageCount: getMessageCount,
-            getClientPartials: getClientPartials,
+            getClients: getClients,
             getInvoices: getInvoices,
 			prime: prime
         };
@@ -44,20 +44,18 @@
             return $q.when(people);
         }
 
-        function getClientPartials() {
+        function getClients() {
         	var orderBy = 'alias';
         	var clients = [];
 
         	return EntityQuery.from('Clients')
-				.select('id, name, alias')
 				.orderBy(orderBy)
-				.toType('Client')
 				.using(manager).execute()
 				.then(querySucceeded, _queryFailed);
 
         	function querySucceeded(data) {
         		clients = data.results;
-        		log('Retrieved [Client Partials] from remote data source', clients.length, true);
+        		log('Retrieved [Clients] from remote data source', clients.length, true);
         		return clients;
         	}
         }
@@ -92,7 +90,7 @@
         function prime() {
         	if (primePromise) return primePromise;
 
-        	primePromise = $q.all([getLookups(), getClientPartials()])
+        	primePromise = $q.all([getLookups(), getClients()])
 				.then(extendMetadata)
 				.then(success);
         	return primePromise;

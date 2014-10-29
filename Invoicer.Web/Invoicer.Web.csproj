@@ -151,13 +151,14 @@
     <Content Include="app\services\datacontext.js" />
     <Content Include="app\services\directives.js" />
     <Content Include="app\services\entityManagerFactory.js" />
+    <Content Include="app\services\model.js" />
     <Content Include="app\template\template.html" />
     <Content Include="app\template\template.js" />
-    <Content Include="content\style.css">
-      <DependentUpon>style.scss</DependentUpon>
+    <Content Include="content\styles.css">
+      <DependentUpon>styles.scss</DependentUpon>
     </Content>
-    <Content Include="content\style.min.css">
-      <DependentUpon>style.css</DependentUpon>
+    <Content Include="content\styles.min.css">
+      <DependentUpon>styles.css</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="content\bootstrap-theme.css" />
@@ -241,9 +242,9 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular-route.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
-    <Content Include="content\style.scss" />
-    <Content Include="content\style.css.map">
-      <DependentUpon>style.css</DependentUpon>
+    <Content Include="content\styles.scss" />
+    <Content Include="content\styles.css.map">
+      <DependentUpon>styles.css</DependentUpon>
     </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />

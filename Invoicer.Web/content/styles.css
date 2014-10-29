@@ -143,7 +143,7 @@ small {
   margin: auto; }
 
 .user .user-details {
-  margin-left: 100px;
+  margin-left: 10px;
   margin-right: 10px; }
 
 .widget-content {
@@ -390,7 +390,7 @@ a {
   .img-polaroid.user-pic {
     width: 5em; }
   .user .user-details {
-    margin-left: 7em;
+    margin-left: 0.5em;
     margin-right: 0.5em; }
   h3 {
     font-size: 1.5em !important;
