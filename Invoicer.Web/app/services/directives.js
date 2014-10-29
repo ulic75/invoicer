@@ -117,7 +117,7 @@
                     iElement.removeClass('fa fa-chevron-down');
                     iElement.addClass('fa fa-chevron-up');
                 }
-                $wcontent.toggle(500);
+                $wcontent.slideToggle(500);
             }
         }
     });
