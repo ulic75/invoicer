@@ -1,4 +1,4 @@
-﻿namespace CC.Model
+﻿namespace Invoicer.Model
 {
     public class Track
     {

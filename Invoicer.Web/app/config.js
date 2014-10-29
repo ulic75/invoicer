@@ -16,11 +16,11 @@
     };
 
     var config = {
-        appErrorPrefix: '[HT Error] ', //Configure the exceptionHandler decorator
-        docTitle: 'HotTowel: ',
+        appErrorPrefix: '[Error] ', //Configure the exceptionHandler decorator
+        docTitle: 'Invoicer: ',
         events: events,
         remoteServiceName: remoteServiceName,
-        version: '2.1.0'
+        version: '0.1.0'
     };
 
     app.value('config', config);

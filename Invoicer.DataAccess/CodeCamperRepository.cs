@@ -2,9 +2,9 @@
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
 using Newtonsoft.Json.Linq;
-using CC.Model;
+using Invoicer.Model;
 
-namespace CC.DataAccess
+namespace Invoicer.DataAccess
 {
     /// <summary>
     /// Repository (a "Unit of Work" really) of CodeCamper models.

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CC.Model
+namespace Invoicer.Model
 {
     /// <summary>
     /// A class representing a case of a <see cref="Person"/> attending a <see cref="Session"/>.

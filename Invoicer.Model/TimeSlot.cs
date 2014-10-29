@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CC.Model
+namespace Invoicer.Model
 {
     public class TimeSlot
     {

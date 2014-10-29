@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using CC.Model;
+using Invoicer.Model;
 
-namespace CC.DataAccess
+namespace Invoicer.DataAccess
 {
     public class SessionConfiguration : EntityTypeConfiguration<Session>
     {

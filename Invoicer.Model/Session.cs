@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CC.Model
+namespace Invoicer.Model
 {
     public class Session
     {

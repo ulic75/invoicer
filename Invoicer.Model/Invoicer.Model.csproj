@@ -7,8 +7,8 @@
     <ProjectGuid>{D91EA111-BAB8-41E3-86CB-E87FDCAECB60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CC.Model</RootNamespace>
-    <AssemblyName>CC.Model</AssemblyName>
+    <RootNamespace>Invoicer.Model</RootNamespace>
+    <AssemblyName>Invoicer.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
