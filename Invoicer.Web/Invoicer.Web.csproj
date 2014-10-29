@@ -148,7 +148,7 @@
     <Content Include="app\services\directives.js" />
     <Content Include="app\services\entityManagerFactory.js" />
     <Content Include="App_Data\.gitignore" />
-    <Content Include="App_Data\CodeCamper.sdf" />
+    <Content Include="App_Data\Invoicer.sdf" />
     <Content Include="favicon.ico" />
     <Content Include="content\bootstrap-theme.css" />
     <Content Include="content\bootstrap-theme.min.css" />
@@ -279,6 +279,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BreezeWebApiConfig.cs" />
+    <Compile Include="Controllers\BreezeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

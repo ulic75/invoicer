@@ -9,12 +9,12 @@ namespace Invoicer.DataAccess
     /// <summary>
     /// Repository (a "Unit of Work" really) of CodeCamper models.
     /// </summary>
-    public class CodeCamperRepository
+    public class InvoicerRepository
     {
-        private readonly EFContextProvider<CodeCamperDbContext>
-            _contextProvider = new EFContextProvider<CodeCamperDbContext>();
+        private readonly EFContextProvider<InvoicerDbContext>
+            _contextProvider = new EFContextProvider<InvoicerDbContext>();
 
-        private CodeCamperDbContext Context { get { return _contextProvider.Context; } }
+        private InvoicerDbContext Context { get { return _contextProvider.Context; } }
 
         public string Metadata
         {

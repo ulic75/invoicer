@@ -5,14 +5,14 @@ using Invoicer.Model;
 
 namespace Invoicer.DataAccess
 {
-    public class CodeCamperDbContext : DbContext 
+    public class InvoicerDbContext : DbContext 
     {
-        public CodeCamperDbContext()
-            : base(nameOrConnectionString: "CodeCamper") { }
+        public InvoicerDbContext()
+            : base(nameOrConnectionString: "Invoicer") { }
 
-        static CodeCamperDbContext()
+        static InvoicerDbContext()
         {
-            Database.SetInitializer<CodeCamperDbContext>(null);
+            Database.SetInitializer<InvoicerDbContext>(null);
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
