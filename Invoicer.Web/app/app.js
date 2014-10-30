@@ -20,7 +20,6 @@
 	// Handle routing errors and success events
 	app.run(['$route', 'datacontext', 'routemediator',
 		function ($route, datacontext, routemediator) {
-			datacontext.prime();
 			routemediator.setRoutingHandlers();
 		}
 	]);
