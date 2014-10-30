@@ -2,10 +2,11 @@
     'use strict';
 
     var serviceId = 'datacontext';
-    angular.module('app').factory(serviceId, ['common', 'config', 'entityManagerFactory', datacontext]);
+    angular.module('app').factory(serviceId, ['common', 'config', 'entityManagerFactory', 'model', datacontext]);
 
-    function datacontext(common, config, emFactory) {
+    function datacontext(common, config, emFactory, model) {
     	var EntityQuery = breeze.EntityQuery;
+		var entityNames = model.entityNames;
     	var getLogFn = common.logger.getLogFn;
     	var log = getLogFn(serviceId);
     	var logError = getLogFn(serviceId, 'error');
@@ -18,12 +19,6 @@
     		isLoaded: {
     			invoices: false,
     		}
-    	}
-
-    	var entityNames = {
-    		client: 'Client',
-    		lineitemdescription: 'LineItemDescription',
-			invoice: 'Invoice'
     	}
 
         var service = {
@@ -51,7 +46,7 @@
             return $q.when(people);
         }
 
-        function getClients() {
+        function getClients(forceRefresh) {
         	var orderBy = 'alias';
         	var clients = [];
 
@@ -62,6 +57,7 @@
 
         	return EntityQuery.from('Clients')
 				.orderBy(orderBy)
+				.toType(entityNames.client)
 				.using(manager).execute()
 				.then(querySucceeded, _queryFailed);
 
@@ -73,6 +69,8 @@
         }
 
         function getInvoices(forceRefresh) {
+			// Used as a where statement
+        	// var predicate = breeze.Predicate.create('isActive', '==', true);
         	var orderBy = 'id';
         	var invoices = [];
 
@@ -83,12 +81,17 @@
 
         	return EntityQuery.from('Invoices')
 				.orderBy(orderBy)
+				.toType(entityNames.invoice)
 				.using(manager).execute()
 				.then(querySucceeded, _queryFailed);
 
         	function querySucceeded(data) {
         		invoices = data.results;
         		_areInvoicesLoaded(true);
+				// Example how to set extended values
+        		//for (var i = invoices.length; i--;) {
+        		//	invoices[i].isActive = true;
+				//}
         		log('Retrieved [Invoices] from remote data source', invoices.length, true);
         		return invoices;
         	}
@@ -108,7 +111,7 @@
         function prime() {
         	if (primePromise) return primePromise;
 
-        	primePromise = $q.all([getLookups(), getClients()])
+        	primePromise = $q.all([getLookups(), getClients(true)])
 				.then(extendMetadata)
 				.then(success);
         	return primePromise;
@@ -137,8 +140,9 @@
         	};
         }
 
-        function _getAllLocal(resource, ordering) {
+        function _getAllLocal(resource, ordering, predicate) {
         	return EntityQuery.from(resource)
+				.where(predicate)
 				.orderBy(ordering)
 				.using(manager)
 				.executeLocally();

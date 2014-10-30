@@ -4,43 +4,40 @@
 	angular.module('app').factory(serviceId, [model]);
 
 	function model() {
+		var entityNames = {
+			client: 'Client',
+			lineitemdescription: 'LineItemDescription',
+			invoice: 'Invoice',
+			payment: 'Payment',
+			lineitem: 'LineItem'
+		}
+
 		var service = {
-			configureMetadataStore: configureMetadataStore
+			configureMetadataStore: configureMetadataStore,
+			entityNames: entityNames
 		}
 
 		return service;
 
 		function configureMetadataStore(metadataStore) {
-			// These are just two examples which call the example functions below
-			//registerLineItemDescription(metadataStore);
-			//registerClient(metadataStore);
+			// This is an example call which calls the example functions below
+			// to extend the data via computeds and local only data
+			//registerInvoice(metadataStore);
 		}
 
 		//#region Internal Methods
 
-		//function registerClient(metadataStore) {
-		//	metadataStore.registerEntityTypeCtor('Client', Client);
+		//function registerInvoice(metadataStore) {
+		//	metadataStore.registerEntityTypeCtor('Invoice', Invoice);
 
-		//	function Client() { }
+		//	function Invoice() {
+		//		this.isActive = false;
+		//	}
 
-		//	Object.defineProperty(Client.prototype, 'fullName', {
+		//	Object.defineProperty(Invoice.prototype, 'customId', {
 		//		get: function () {
-		//			var name = this.name;
-		//			var value = name + ' (blah)';
-		//			return value;
-		//		}
-		//	})
-		//}
-
-		//function registerLineItemDescription(metadataStore) {
-		//	metadataStore.registerEntityTypeCtor('LineItemDescription', LineItemDescription);
-
-		//	function LineItemDescription() { }
-
-		//	Object.defineProperty(LineItemDescription.prototype, 'name', {
-		//		get: function () {
-		//			var description = this.description;
-		//			var value = description + ' (blah)';
+		//			var id = this.id;
+		//			var value = id + 1;
 		//			return value;
 		//		}
 		//	})
