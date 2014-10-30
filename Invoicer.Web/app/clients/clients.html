@@ -2,6 +2,13 @@
 	<section class="matter">
 		<div class="container">
 			<div class="row">
+				<div class="form-search">
+					<div class="btn-group pull-right">
+						<a class="btn btn-info" data-ng-click="vm.refresh()"><i class="fa fa-refresh"></i> Refresh</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
 				<div class="widget worange">
 					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.clients.length}}"></div>
 					<div class="widget-content user">

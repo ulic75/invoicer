@@ -14,10 +14,17 @@
     	var primePromise = false;
     	var $q = common.$q;
 
+    	var storeMeta = {
+    		isLoaded: {
+    			invoices: false,
+    		}
+    	}
+
     	var entityNames = {
     		client: 'Client',
-    		lineitemdescription: 'LineItemDescription'
-    	};
+    		lineitemdescription: 'LineItemDescription',
+			invoice: 'Invoice'
+    	}
 
         var service = {
             getPeople: getPeople,
@@ -25,7 +32,7 @@
             getClients: getClients,
             getInvoices: getInvoices,
 			prime: prime
-        };
+        }
 
         return service;
 
@@ -48,6 +55,11 @@
         	var orderBy = 'alias';
         	var clients = [];
 
+        	if (!forceRefresh) {
+        		clients = _getAllLocal(entityNames.client, orderBy);
+        		return $q.when(clients);
+        	}
+
         	return EntityQuery.from('Clients')
 				.orderBy(orderBy)
 				.using(manager).execute()
@@ -60,9 +72,14 @@
         	}
         }
 
-        function getInvoices() {
+        function getInvoices(forceRefresh) {
         	var orderBy = 'id';
         	var invoices = [];
+
+        	if (_areInvoicesLoaded() && !forceRefresh) {
+        		invoices = _getAllLocal(entityNames.invoice, orderBy);
+        		return $q.when(invoices);
+        	}
 
         	return EntityQuery.from('Invoices')
 				.orderBy(orderBy)
@@ -71,6 +88,7 @@
 
         	function querySucceeded(data) {
         		invoices = data.results;
+        		_areInvoicesLoaded(true);
         		log('Retrieved [Invoices] from remote data source', invoices.length, true);
         		return invoices;
         	}
@@ -98,21 +116,19 @@
         	function success() {
         		setLookups();
         		log('Primed the data');
-        	};
+        	}
 
         	function extendMetadata() {
         		var metadataStore = manager.metadataStore;
         		var types = metadataStore.getEntityTypes();
         		types.forEach(function (type) {
-        			if (type instanceof breeze.EntityType) {
-						set(type.shortName, type)
-        			}
+        			if (type instanceof breeze.EntityType) { set(type.shortName, type) }
         		});
 
         		function set(resourceName, entityName) {
         			metadataStore.setEntityTypeForResourceName(resourceName, entityName);
         		}
-        	};
+        	}
         }
 
         function setLookups() {
@@ -132,6 +148,18 @@
         	var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
         	logError(msg, error);
         	throw error;
+		}
+
+        function _areInvoicesLoaded(value) {
+        	return _areItemsLoaded('invoices', value);
         }
+
+        function _areItemsLoaded(key, value) {
+        	if (value === undefined) {
+        		return storeMeta.isLoaded[key];
+        	}
+        	return storeMeta.isLoaded[key] = value;
+        }
+
     }
 })();

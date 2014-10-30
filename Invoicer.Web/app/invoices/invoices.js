@@ -10,6 +10,7 @@
 
 		vm.invoices = [];
 		vm.title = 'Invoices';
+		vm.refresh = refresh;
 
 		activate();
 
@@ -18,11 +19,13 @@
                 .then(function () { log('Activated Invoices View'); });
 		}
 
-		function getInvoices() {
-			return datacontext.getInvoices().then(function (data) {
+		function getInvoices(forceRefresh) {
+			return datacontext.getInvoices(forceRefresh).then(function (data) {
 				return vm.invoices = data;
 			});
 		}
+
+		function refresh() { getInvoices(true);	}
 
 	}
 })();

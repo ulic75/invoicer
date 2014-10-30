@@ -10,6 +10,7 @@
 
 		vm.clients = [];
 		vm.title = 'Clients';
+		vm.refresh = refresh;
 
 		activate();
 
@@ -18,11 +19,13 @@
                 .then(function () { log('Activated Clients View'); });
 		}
 
-		function getClients() {
-			return datacontext.getClients().then(function (data) {
+		function getClients(forceRefresh) {
+			return datacontext.getClients(forceRefresh).then(function (data) {
 				return vm.clients = data;
 			});
 		}
+
+		function refresh() { getClients(true); }
 
 	}
 })();
