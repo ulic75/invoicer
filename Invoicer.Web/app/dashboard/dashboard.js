@@ -9,7 +9,7 @@
 
         var vm = this;
         vm.news = {
-            title: 'Hot Towel Angular',
+            title: 'Invoicerr',
             description: 'Hot Towel Angular is a SPA template for Angular developers.'
         };
         vm.messageCount = 0;
