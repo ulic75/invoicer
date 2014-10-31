@@ -3,6 +3,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="form-search">
+					<input class="input-sm search-query" data-ng-model="vm.invoicesSearch" data-ng-keyup="vm.search($event)" placeholder="Filter client or invoice #" />
 					<div class="btn-group pull-right">
 						<a class="btn btn-info" data-ng-click="vm.refresh()"><i class="fa fa-refresh"></i> Refresh</a>
 					</div>
@@ -10,9 +11,9 @@
 			</div>
 			<div class="row">
 				<div class="widget wlightblue">
-					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.invoices.length}}"></div>
+					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.filteredInvoices.length}} / {{vm.invoices.length}}"></div>
 					<div class="widget-content user">
-						<div class="padd" data-ng-repeat="i in vm.invoices">
+						<div class="padd" data-ng-repeat="i in vm.filteredInvoices">
 							<div class="user-details">
 								<h3>{{i.id}}</h3>
 								<h6>{{i.client.name}}</h6>

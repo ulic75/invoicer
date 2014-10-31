@@ -3,6 +3,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="form-search">
+					<input class="input-sm search-query" data-ng-model="vm.clientSearch" data-ng-keyup="vm.search($event)" placeholder="Client search..." />
 					<div class="btn-group pull-right">
 						<a class="btn btn-info" data-ng-click="vm.refresh()"><i class="fa fa-refresh"></i> Refresh</a>
 					</div>
@@ -10,9 +11,9 @@
 			</div>
 			<div class="row">
 				<div class="widget worange">
-					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.clients.length}}"></div>
+					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.filteredClients.length}} / {{vm.clients.length}}"></div>
 					<div class="widget-content user">
-						<div class="padd" data-ng-repeat="c in vm.clients">
+						<div class="padd" data-ng-repeat="c in vm.filteredClients">
 							<div class="user-details">
 								<div class="pull-left">
 									<h3>{{c.name}}</h3>
