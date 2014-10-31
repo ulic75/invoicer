@@ -22,26 +22,26 @@
 		function configureMetadataStore(metadataStore) {
 			// This is an example call which calls the example functions below
 			// to extend the data via computeds and local only data
-			//registerInvoice(metadataStore);
+			registerInvoice(metadataStore);
 		}
 
 		//#region Internal Methods
 
-		//function registerInvoice(metadataStore) {
-		//	metadataStore.registerEntityTypeCtor('Invoice', Invoice);
+		function registerInvoice(metadataStore) {
+			metadataStore.registerEntityTypeCtor('Invoice', Invoice);
 
-		//	function Invoice() {
-		//		this.isActive = false;
-		//	}
+			function Invoice() {
+				this.stringId = 0;
+			}
 
-		//	Object.defineProperty(Invoice.prototype, 'customId', {
-		//		get: function () {
-		//			var id = this.id;
-		//			var value = id + 1;
-		//			return value;
-		//		}
-		//	})
-		//}
+			//Object.defineProperty(Invoice.prototype, 'stringId', {
+			//	get: function () {
+			//		var id = this.id;
+			//		var value = id.toString();
+			//		return value;
+			//	}
+			//})
+		}
 
 		//#endregion
 	}

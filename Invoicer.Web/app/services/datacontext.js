@@ -25,6 +25,8 @@
             getPeople: getPeople,
             getMessageCount: getMessageCount,
             getClients: getClients,
+            getInvoiceCount: getInvoiceCount,
+            getInvoiceFilteredCount: getInvoiceFilteredCount,
             getInvoices: getInvoices,
 			prime: prime
         }
@@ -68,15 +70,18 @@
         	}
         }
 
-        function getInvoices(forceRefresh) {
+        function getInvoices(forceRefresh, page, size, filter) {
 			// Used as a where statement
         	// var predicate = breeze.Predicate.create('isActive', '==', true);
-        	var orderBy = 'id';
         	var invoices = [];
+        	var orderBy = 'id';
+        	var take = size || 20;
+        	var skip = page ? (page - 1) * size : 0;
 
         	if (_areInvoicesLoaded() && !forceRefresh) {
-        		invoices = _getAllLocal(entityNames.invoice, orderBy);
-        		return $q.when(invoices);
+        		return $q.when(getByPage());
+        		//invoices = _getAllLocal(entityNames.invoice, orderBy);
+        		//return $q.when(invoices);
         	}
 
         	return EntityQuery.from('Invoices')
@@ -86,15 +91,67 @@
 				.then(querySucceeded, _queryFailed);
 
         	function querySucceeded(data) {
-        		invoices = data.results;
         		_areInvoicesLoaded(true);
-				// Example how to set extended values
+        		// Example how to set extended values
         		//for (var i = invoices.length; i--;) {
         		//	invoices[i].isActive = true;
-				//}
-        		log('Retrieved [Invoices] from remote data source', invoices.length, true);
+        		//}
+        		for (var i = data.results.length; i--;) {
+        			data.results[i].stringId = data.results[i].id;
+        		}
+        		log('Retrieved [Invoices] from remote data source', data.results.length, true);
+        		return getByPage();
+        	}
+
+        	function getByPage() {
+        		var predicate = null;
+        		if (filter) {
+        			predicate = _invoiceSearchPredicate(filter);
+        		}
+        		var invoices = EntityQuery.from('Invoices')
+					.where(predicate)
+					.take(take)
+					.skip(skip)
+					.orderBy(orderBy)
+					.toType(entityNames.invoice)
+					.using(manager)
+					.executeLocally();
         		return invoices;
         	}
+        }
+
+        function getInvoiceCount() {
+        	if (_areInvoicesLoaded()) {
+        		return $q.when(_getLocalEntityCount('Invoices'));
+        	}
+
+        	return EntityQuery.from('Invoices')
+				.using(manager)
+				.execute()
+				.then(_getInlineCount);
+        }
+
+        function _getInlineCount(data) { return data.inlineCount; }
+
+        function _getLocalEntityCount(resource) {
+        	var entities = EntityQuery.from(resource)
+				.using(manager)
+				.executeLocally();
+        	return entities.length;
+        }
+
+        function getInvoiceFilteredCount(filter) {
+        	var predicate = _invoiceSearchPredicate(filter);
+        	var invoices = EntityQuery.from('Invoices')
+				.where(predicate)
+				.using(manager)
+				.executeLocally();
+        	return invoices.length;
+        }
+
+        function _invoiceSearchPredicate(filter) {
+        	return breeze.Predicate.create('client.name', 'contains', filter)
+				.or('id', '==', filter);
         }
 
         function getLookups() {

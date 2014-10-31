@@ -9,57 +9,70 @@
 		var getLogFn = common.logger.getLogFn;
 		var log = getLogFn(controllerId);
 
-		var applyFilter = function () { };
-
 		vm.filteredInvoices = [];
 		vm.invoices = [];
-		vm.invoicesFilter = invoicesFilter;
+		vm.invoiceCount = 0;
+		vm.invoiceFilteredCount = 0;
 		vm.invoicesSearch = $routeParams.id || '';
+		vm.pageChanged = pageChanged;
+		vm.paging = {
+			currentPage: 1,
+			maxPagesToShow: 5,
+			pageSize: 5
+		}
 		vm.search = search;
 		vm.title = 'Invoices';
 		vm.refresh = refresh;
+
+		Object.defineProperty(vm.paging, 'pageCount', {
+			get: function () {
+				return Math.floor(vm.invoiceFilteredCount / vm.paging.pageSize) + 1;
+			}
+		});
 
 		activate();
 
 		function activate() {
 			common.activateController([getInvoices()], controllerId)
                 .then(function () {
-                	// createSearchThrottle uses values by convention, via it's parameters:
-                	//	vm.invoicesSearch is where the user enters the search
-                	//	vm.invoices is the original unfiltered array
-                	//	vm.filteredInvoices is the filtered array
-					//	vm.invoicesFilter is the filtering function
-                	applyFilter = common.createSearchThrottle(vm, 'invoices');
-                	if (vm.invoicesSearch) { applyFilter(true); }
                 	log('Activated Invoices View');
                 });
 		}
 
-		function getInvoices(forceRefresh) {
-			return datacontext.getInvoices(forceRefresh).then(function (data) {
-				return vm.invoices = vm.filteredInvoices = data;
+		function getInvoiceCount() {
+			return datacontext.getInvoiceCount().then(function (data) {
+				return vm.invoiceCount = data;
 			});
 		}
 
-		function refresh() { getInvoices(true);	}
+		function getInvoiceFilteredCount() {
+			vm.invoiceFilteredCount = datacontext.getInvoiceFilteredCount(vm.invoicesSearch);
+		}
+
+		function getInvoices(forceRefresh) {
+			return datacontext.getInvoices(forceRefresh, vm.paging.currentPage, vm.paging.pageSize, vm.invoicesSearch).then(function (data) {
+				vm.invoices = data;
+				if (!vm.invoiceCount || forceRefresh) {
+					getInvoiceCount();
+				}
+				getInvoiceFilteredCount();
+				return data;
+			});
+		}
+
+		function refresh() { getInvoices(true); }
 
 		function search($event) {
 			if ($event.keyCode === keyCodes.esc) {
 				vm.invoicesSearch = '';
-				applyFilter(true);
-			} else {
-				applyFilter();
 			}
+			getInvoices();
 		}
 
-		function invoicesFilter(invoice) {
-			var textContains = common.textContains;
-			var searchText = vm.invoicesSearch;
-			var isMatch = searchText ?
-				textContains(invoice.client.name, searchText)
-					|| textContains(invoice.id, searchText)
-				: true;
-			return isMatch;
+		function pageChanged(page) {
+			if (!page) { return; }
+			vm.paging.currentPage = page;
+			getInvoices();
 		}
 
 	}

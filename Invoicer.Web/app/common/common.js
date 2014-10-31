@@ -125,7 +125,8 @@
         }
 
         function textContains(text, searchText) {
-            return text && -1 !== text.toString().toLowerCase().indexOf(searchText.toLowerCase());
+        	//return text && -1 !== text.toString().toLowerCase().indexOf(searchText.toLowerCase());
+        	return text && -1 !== text.toLowerCase().indexOf(searchText.toLowerCase());
         }
     }
 })();
