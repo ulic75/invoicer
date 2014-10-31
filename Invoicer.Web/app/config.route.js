@@ -65,6 +65,13 @@
             		}
             	}
             }, {
+            	url: '/invoices/search/:id',
+            	config: {
+            		title: 'invoices-search',
+            		templateUrl: 'app/invoices/invoices.html',
+            		settings: {}
+				}
+            }, {
             	url: '/admin',
             	config: {
             		title: 'admin',

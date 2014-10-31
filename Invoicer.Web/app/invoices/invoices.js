@@ -1,9 +1,9 @@
 ﻿(function () {
 	'use strict';
 	var controllerId = 'invoices';
-	angular.module('app').controller(controllerId, ['common', 'config', 'datacontext', invoices]);
+	angular.module('app').controller(controllerId, ['$routeParams', 'common', 'config', 'datacontext', invoices]);
 
-	function invoices(common, config, datacontext) {
+	function invoices($routeParams, common, config, datacontext) {
 		var vm = this;
 		var keyCodes = config.keyCodes;
 		var getLogFn = common.logger.getLogFn;
@@ -14,7 +14,7 @@
 		vm.filteredInvoices = [];
 		vm.invoices = [];
 		vm.invoicesFilter = invoicesFilter;
-		vm.invoicesSearch = '';
+		vm.invoicesSearch = $routeParams.id || '';
 		vm.search = search;
 		vm.title = 'Invoices';
 		vm.refresh = refresh;
