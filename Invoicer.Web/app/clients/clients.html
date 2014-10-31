@@ -12,9 +12,9 @@
 			<div class="row">
 				<div class="widget worange">
 					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.filteredClients.length}} / {{vm.clients.length}}"></div>
-					<div class="widget-content user">
-						<div class="padd" data-ng-repeat="c in vm.filteredClients">
-							<div class="user-details">
+					<div class="widget-content client">
+						<div class="padd clearfix" data-ng-repeat="c in vm.filteredClients">
+							<div class="client-details">
 								<div class="pull-left">
 									<h3>{{c.name}}</h3>
 									<h6>{{c.alias}}</h6>

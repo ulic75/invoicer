@@ -15,9 +15,9 @@
 						 subtitle="{{vm.invoiceFilteredCount}} / {{vm.invoiceCount}}"
 						 right-text="Page {{vm.paging.currentPage}} of {{vm.paging.pageCount}}">
 					</div>
-					<div class="widget-content user">
+					<div class="widget-content invoice">
 						<div class="padd" data-ng-repeat="i in vm.invoices">
-							<div class="user-details">
+							<div class="invoice-details">
 								<h3>{{i.id}}</h3>
 								<h6>{{i.client.name}}</h6>
 								<h6>{{i.date}}</h6>

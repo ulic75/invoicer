@@ -87,7 +87,7 @@ textarea.form-control {
 .widget .padd {
     /*margin-bottom: 0;*/
     /*padding: 1em 0;*/
-    height: 12em;
+    /*height: 12em;*/
 }
 
     .widget .padd.padd-tight {
@@ -192,6 +192,16 @@ small {
 }
 
 .user .user-details {
+    margin-left: 10px;
+	margin-right: 10px;
+}
+
+.client .client-details {
+    margin-left: 10px;
+	margin-right: 10px;
+}
+
+.invoice .invoice-details {
     margin-left: 10px;
 	margin-right: 10px;
 }
