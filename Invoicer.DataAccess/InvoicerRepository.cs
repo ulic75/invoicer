@@ -30,6 +30,10 @@ namespace Invoicer.DataAccess {
 			get { return Context.Invoices; }
 		}
 
+		public IQueryable<LineItem> LineItems {
+			get { return Context.LineItems; }
+		}
+
 		public IQueryable<LineItemDescription> LineItemDescriptions {
 			get { return Context.LineItemDescriptions; }
 		}

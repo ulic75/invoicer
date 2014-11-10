@@ -33,6 +33,11 @@ namespace Invoicer.Web.Controllers {
 		}
 
 		[HttpGet]
+		public IQueryable<LineItem> LineItems() {
+			return _repository.LineItems;
+		}
+
+		[HttpGet]
 		public IQueryable<Client> Clients() {
 			return _repository.Clients;
 		}

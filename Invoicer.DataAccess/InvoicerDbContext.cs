@@ -28,6 +28,7 @@ namespace Invoicer.DataAccess {
 		public DbSet<Attendance> Attendance { get; set; }
 
 		public DbSet<Invoice> Invoices { get; set; }
+		public DbSet<LineItem> LineItems { get; set; }
 		public DbSet<LineItemDescription> LineItemDescriptions { get; set; }
 		public DbSet<Client> Clients { get; set; }
 

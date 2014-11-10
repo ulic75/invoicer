@@ -20,8 +20,7 @@
 		return service;
 
 		function configureMetadataStore(metadataStore) {
-			// This is an example call which calls the example functions below
-			// to extend the data via computeds and local only data
+			// Extend the data
 			registerInvoice(metadataStore);
 		}
 
@@ -34,13 +33,16 @@
 				this.stringId = 0;
 			}
 
-			//Object.defineProperty(Invoice.prototype, 'stringId', {
-			//	get: function () {
-			//		var id = this.id;
-			//		var value = id.toString();
-			//		return value;
-			//	}
-			//})
+			Object.defineProperty(Invoice.prototype, 'total', {
+				get: function () {
+					var value = 0;
+					this.lineItems.forEach(function (lineItem) {
+						value += (lineItem.quantity * lineItem.unitPrice);
+					});
+					return value;
+				}
+			});
+
 		}
 
 		//#endregion

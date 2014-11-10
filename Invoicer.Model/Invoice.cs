@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Invoicer.Model {
 	public class Invoice {
@@ -14,5 +13,7 @@ namespace Invoicer.Model {
 		public int Sent { get; set; }
 
 		public virtual Client Client { get; set; }
+
+		public virtual ICollection<LineItem> LineItems { get; set; }
 	}
 }
