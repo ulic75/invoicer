@@ -86,16 +86,13 @@
 
         	return EntityQuery.from('Invoices')
 				.orderBy(orderBy)
+				.expand('lineItems')
 				.toType(entityNames.invoice)
 				.using(manager).execute()
 				.then(querySucceeded, _queryFailed);
 
         	function querySucceeded(data) {
         		_areInvoicesLoaded(true);
-        		// Example how to set extended values
-        		//for (var i = invoices.length; i--;) {
-        		//	invoices[i].isActive = true;
-        		//}
         		for (var i = data.results.length; i--;) {
         			data.results[i].stringId = data.results[i].id;
         		}
@@ -151,7 +148,7 @@
 
         function _invoiceSearchPredicate(filter) {
         	return breeze.Predicate.create('client.name', 'contains', filter)
-				.or('id', '==', filter);
+				.or('stringId', 'contains', filter);
         }
 
         function getLookups() {

@@ -30,7 +30,7 @@
 			metadataStore.registerEntityTypeCtor('Invoice', Invoice);
 
 			function Invoice() {
-				this.stringId = 0;
+				this.stringId = "";
 			}
 
 			Object.defineProperty(Invoice.prototype, 'total', {
