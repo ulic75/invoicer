@@ -6,6 +6,7 @@
 
     function datacontext(common, config, emFactory, model) {
     	var EntityQuery = breeze.EntityQuery;
+    	var Predicate = breeze.Predicate;
 		var entityNames = model.entityNames;
     	var getLogFn = common.logger.getLogFn;
     	var log = getLogFn(serviceId);
@@ -22,8 +23,7 @@
     	}
 
         var service = {
-            getPeople: getPeople,
-            getMessageCount: getMessageCount,
+            getClientCount: getClientCount,
             getClients: getClients,
             getInvoiceCount: getInvoiceCount,
             getInvoiceFilteredCount: getInvoiceFilteredCount,
@@ -33,20 +33,18 @@
 
         return service;
 
-        function getMessageCount() { return $q.when(72); }
+        function getClientCount() {
+			if(_areClientsLoaded()) {
+				return $q.when(_getLocalEntityCount(entityNames.client));
+			}
 
-        function getPeople() {
-            var people = [
-                { firstName: 'John', lastName: 'Papa', age: 25, location: 'Florida' },
-                { firstName: 'Ward', lastName: 'Bell', age: 31, location: 'California' },
-                { firstName: 'Colleen', lastName: 'Jones', age: 21, location: 'New York' },
-                { firstName: 'Madelyn', lastName: 'Green', age: 18, location: 'North Dakota' },
-                { firstName: 'Ella', lastName: 'Jobs', age: 18, location: 'South Dakota' },
-                { firstName: 'Landon', lastName: 'Gates', age: 11, location: 'South Carolina' },
-                { firstName: 'Haley', lastName: 'Guthrie', age: 35, location: 'Wyoming' }
-            ];
-            return $q.when(people);
-        }
+        	return EntityQuery.from('Clients')
+				.take(0)
+				.inlineCount()
+				.using(manager)
+				.execute()
+				.then(_getInlineCount);
+		}
 
         function getClients(forceRefresh) {
         	var orderBy = 'alias';
@@ -72,7 +70,7 @@
 
         function getInvoices(forceRefresh, page, size, filter) {
 			// Used as a where statement
-        	// var predicate = breeze.Predicate.create('isActive', '==', true);
+        	// var predicate = Predicate.create('isActive', '==', true);
         	var invoices = [];
         	var orderBy = 'id';
         	var take = size || 20;
@@ -123,6 +121,8 @@
         	}
 
         	return EntityQuery.from('Invoices')
+				.take(0)
+				.inlineCount()
 				.using(manager)
 				.execute()
 				.then(_getInlineCount);
@@ -147,7 +147,7 @@
         }
 
         function _invoiceSearchPredicate(filter) {
-        	return breeze.Predicate.create('client.name', 'contains', filter)
+        	return Predicate.create('client.name', 'contains', filter)
 				.or('stringId', 'contains', filter);
         }
 
@@ -208,9 +208,13 @@
         	throw error;
 		}
 
-        function _areInvoicesLoaded(value) {
-        	return _areItemsLoaded('invoices', value);
+        function _areClientsLoaded(value) {
+        	return _areItemsLoaded('clients', value);
         }
+
+    	function _areInvoicesLoaded(value) {
+    		return _areItemsLoaded('invoices', value);
+    	}
 
         function _areItemsLoaded(key, value) {
         	if (value === undefined) {
