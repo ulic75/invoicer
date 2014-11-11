@@ -78,13 +78,11 @@
 
         	if (_areInvoicesLoaded() && !forceRefresh) {
         		return $q.when(getByPage());
-        		//invoices = _getAllLocal(entityNames.invoice, orderBy);
-        		//return $q.when(invoices);
         	}
 
         	return EntityQuery.from('Invoices')
 				.orderBy(orderBy)
-				.expand('lineItems')
+				.expand(['lineItems','lineItems.lineItemDescription', 'payments'])
 				.toType(entityNames.invoice)
 				.using(manager).execute()
 				.then(querySucceeded, _queryFailed);

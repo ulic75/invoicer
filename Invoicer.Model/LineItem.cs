@@ -10,6 +10,6 @@ namespace Invoicer.Model {
 		public decimal UnitPrice { get; set; }
 
 		public virtual Invoice Invoice { get; set; }
-		//public virtual LineItemDescription LineItemDescription { get; set; }
+		public virtual LineItemDescription LineItemDescription { get; set; }
 	}
 }

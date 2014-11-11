@@ -6,7 +6,6 @@ namespace Invoicer.DataAccess {
 	public class InvoicerDbContext : DbContext {
 		public InvoicerDbContext()
 			: base(nameOrConnectionString: "Invoicer") { }
-			//: base("name=Invoicer") { }
 
 		static InvoicerDbContext() {
 			Database.SetInitializer<InvoicerDbContext>(null);
@@ -19,22 +18,18 @@ namespace Invoicer.DataAccess {
 			Configuration.ProxyCreationEnabled = false;
 			Configuration.LazyLoadingEnabled = false;
 
-			modelBuilder.Configurations.Add(new SessionConfiguration());
-			modelBuilder.Configurations.Add(new AttendanceConfiguration());
+			modelBuilder.Configurations.Add(new ClientConfiguration());
+			modelBuilder.Configurations.Add(new InvoiceConfiguration());
+			modelBuilder.Configurations.Add(new LineItemConfiguration());
+			modelBuilder.Configurations.Add(new LineItemDescriptionConfiguration());
+			modelBuilder.Configurations.Add(new PaymentConfiguration());
 		}
 
-		public DbSet<Session> Sessions { get; set; }
-		public DbSet<Person> Persons { get; set; }
-		public DbSet<Attendance> Attendance { get; set; }
-
+		public DbSet<Client> Clients { get; set; }
 		public DbSet<Invoice> Invoices { get; set; }
 		public DbSet<LineItem> LineItems { get; set; }
 		public DbSet<LineItemDescription> LineItemDescriptions { get; set; }
-		public DbSet<Client> Clients { get; set; }
+		public DbSet<Payment> Payments { get; set; }
 
-		// Lookup Lists
-		public DbSet<Room> Rooms { get; set; }
-		public DbSet<TimeSlot> TimeSlots { get; set; }
-		public DbSet<Track> Tracks { get; set; }
 	}
 }

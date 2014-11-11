@@ -43,6 +43,16 @@
 				}
 			});
 
+			Object.defineProperty(Invoice.prototype, 'totalPayments', {
+				get: function () {
+					var value = 0;
+					this.payments.forEach(function (payment) {
+						value += (payment.amount);
+					});
+					return value;
+				}
+			});
+
 		}
 
 		//#endregion

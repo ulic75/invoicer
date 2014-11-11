@@ -23,8 +23,8 @@ namespace Invoicer.Web.Controllers {
 		}
 
 		[HttpGet]
-		public IQueryable<Session> Sessions() {
-			return _repository.Sessions;
+		public IQueryable<Client> Clients() {
+			return _repository.Clients;
 		}
 
 		[HttpGet]
@@ -38,21 +38,10 @@ namespace Invoicer.Web.Controllers {
 		}
 
 		[HttpGet]
-		public IQueryable<Client> Clients() {
-			return _repository.Clients;
+		public IQueryable<Payment> Payments() {
+			return _repository.Payments;
 		}
-
-		[HttpGet]
-		public IQueryable<Person> Speakers() {
-			return _repository.Speakers;
-		}
-
-		[HttpGet]
-		public IQueryable<Person> Persons() {
-			return _repository.Persons;
-		}
-
-
+		
 		/// <summary>
 		/// Query returing a 1-element array with a lookups object whose 
 		/// properties are all Rooms, Tracks, and TimeSlots.
@@ -64,11 +53,8 @@ namespace Invoicer.Web.Controllers {
 		/// </returns>
 		[HttpGet]
 		public object Lookups() {
-			var rooms = _repository.Rooms;
-			var tracks = _repository.Tracks;
-			var timeslots = _repository.TimeSlots;
 			var lineitemdescriptions = _repository.LineItemDescriptions;
-			return new { rooms, tracks, timeslots, lineitemdescriptions };
+			return new { lineitemdescriptions };
 		}
 
 		// Diagnostic
