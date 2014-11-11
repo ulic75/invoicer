@@ -8,9 +8,16 @@
         var log = getLogFn(controllerId);
 
         var vm = this;
+        vm.content = {
+        	invoices: [],
+        	predicate: '',
+        	setContentSort: setContentSort,
+			title: 'Content',
+			reverse: false,
+        };
         vm.news = {
-            title: 'Invoicer',
-            description: 'Hot Towel Angular is a SPA template for Angular developers.'
+        		title: 'Invoicer',
+        		description: 'Invoicer is an application for processing invoices.'
         };
         vm.clientCount = 0;
         vm.invoiceCount = 0;
@@ -19,7 +26,7 @@
         activate();
 
         function activate() {
-            var promises = [getClientCount(), getInvoiceCount()];
+        	var promises = [getClientCount(), getInvoiceCount(), getInvoices()];
             common.activateController(promises, controllerId)
                 .then(function () { log('Activated Dashboard View'); });
         }
@@ -35,6 +42,17 @@
         		return vm.invoiceCount = data;
         	});
         }
+
+		function getInvoices() {
+			return datacontext.getInvoices().then(function (data) {
+				return vm.content.invoices = data;
+			});
+		}
+
+		function setContentSort(prop) {
+			vm.content.predicate = prop;
+			vm.content.reverse = !vm.content.reverse;
+		}
 
     }
 })();
