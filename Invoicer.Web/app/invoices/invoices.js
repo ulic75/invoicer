@@ -40,17 +40,17 @@
 		}
 
 		function getInvoiceCount() {
-			return datacontext.getInvoiceCount().then(function (data) {
+			return datacontext.invoice.getCount().then(function (data) {
 				return vm.invoiceCount = data;
 			});
 		}
 
 		function getInvoiceFilteredCount() {
-			vm.invoiceFilteredCount = datacontext.getInvoiceFilteredCount(vm.invoicesSearch);
+			vm.invoiceFilteredCount = datacontext.invoice.getFilteredCount(vm.invoicesSearch);
 		}
 
 		function getInvoices(forceRefresh) {
-			return datacontext.getInvoices(forceRefresh, vm.paging.currentPage, vm.paging.pageSize, vm.invoicesSearch).then(function (data) {
+			return datacontext.invoice.getAll(forceRefresh, vm.paging.currentPage, vm.paging.pageSize, vm.invoicesSearch).then(function (data) {
 				vm.invoices = data;
 				if (!vm.invoiceCount || forceRefresh) {
 					getInvoiceCount();

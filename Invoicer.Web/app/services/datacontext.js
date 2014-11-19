@@ -1,225 +1,85 @@
 (function () {
-    'use strict';
+	'use strict';
 
-    var serviceId = 'datacontext';
-    angular.module('app').factory(serviceId, ['common', 'config', 'entityManagerFactory', 'model', datacontext]);
+	var serviceId = 'datacontext';
+	angular.module('app').factory(serviceId, ['common', 'entityManagerFactory', 'model', 'repositories', datacontext]);
 
-    function datacontext(common, config, emFactory, model) {
-    	var EntityQuery = breeze.EntityQuery;
-    	var Predicate = breeze.Predicate;
+	function datacontext(common, emFactory, model, repositories) {
+		//var EntityQuery = breeze.EntityQuery;
+		//var Predicate = breeze.Predicate;
 		var entityNames = model.entityNames;
-    	var getLogFn = common.logger.getLogFn;
-    	var log = getLogFn(serviceId);
-    	var logError = getLogFn(serviceId, 'error');
-    	var logSuccess = getLogFn(serviceId, 'success');
-    	var manager = emFactory.newManager();
-    	var primePromise = false;
-    	var $q = common.$q;
+		var getLogFn = common.logger.getLogFn;
+		var log = getLogFn(serviceId);
+		var logError = getLogFn(serviceId, 'error');
+		var logSuccess = getLogFn(serviceId, 'success');
+		var manager = emFactory.newManager();
+		var primePromise;
+		var repoNames = ['client', 'invoice', 'lookup'];
+		var $q = common.$q;
 
-    	var storeMeta = {
-    		isLoaded: {
-    			invoices: false,
-    		}
-    	}
-
-        var service = {
-            getClientCount: getClientCount,
-            getClients: getClients,
-            getInvoiceCount: getInvoiceCount,
-            getInvoiceFilteredCount: getInvoiceFilteredCount,
-            getInvoices: getInvoices,
+		var service = {
 			prime: prime
-        }
-
-        return service;
-
-        function getClientCount() {
-			if(_areClientsLoaded()) {
-				return $q.when(_getLocalEntityCount(entityNames.client));
-			}
-
-        	return EntityQuery.from('Clients')
-				.take(0)
-				.inlineCount()
-				.using(manager)
-				.execute()
-				.then(_getInlineCount);
+			// Repositories to be added on demand:
+			//      clients
+			//		invoices
+			//      lookups
 		}
 
-        function getClients(forceRefresh) {
-        	var orderBy = 'alias';
-        	var clients = [];
+		init();
 
-        	if (!forceRefresh) {
-        		clients = _getAllLocal(entityNames.client, orderBy);
-        		return $q.when(clients);
-        	}
+		return service;
 
-        	return EntityQuery.from('Clients')
-				.orderBy(orderBy)
-				.toType(entityNames.client)
-				.using(manager).execute()
-				.then(querySucceeded, _queryFailed);
+		function init() {
+			repositories.init(manager);
+			defineLazyLoadedRepos();
+		}
 
-        	function querySucceeded(data) {
-        		clients = data.results;
-        		log('Retrieved [Clients] from remote data source', clients.length, true);
-        		return clients;
-        	}
-        }
+		// Add ES5 property to datacontext for each named repo
+		function defineLazyLoadedRepos() {
+			repoNames.forEach(function (name) {
+				Object.defineProperty(service, name, {
+					configurable: true, // will redefine this property once
+					get: function () {
+						// The 1st time the repo is request via this property, 
+						// we ask the repositories for it (which will inject it).
+						var repo = repositories.getRepo(name);
+						// Rewrite this property to always return this repo;
+						// no longer redefinable
+						Object.defineProperty(service, name, {
+							value: repo,
+							configurable: false,
+							enumerable: true
+						});
+						return repo;
+					}
+				});
+			});
+		}
 
-        function getInvoices(forceRefresh, page, size, filter) {
-			// Used as a where statement
-        	// var predicate = Predicate.create('isActive', '==', true);
-        	var invoices = [];
-        	var orderBy = 'id';
-        	var take = size || 20;
-        	var skip = page ? (page - 1) * size : 0;
+		function prime() {
+			if (primePromise) return primePromise;
 
-        	if (_areInvoicesLoaded() && !forceRefresh) {
-        		return $q.when(getByPage());
-        	}
-
-        	return EntityQuery.from('Invoices')
-				.orderBy(orderBy)
-				.expand(['lineItems','lineItems.lineItemDescription', 'payments'])
-				.toType(entityNames.invoice)
-				.using(manager).execute()
-				.then(querySucceeded, _queryFailed);
-
-        	function querySucceeded(data) {
-        		_areInvoicesLoaded(true);
-        		for (var i = data.results.length; i--;) {
-        			data.results[i].stringId = data.results[i].id;
-        		}
-        		log('Retrieved [Invoices] from remote data source', data.results.length, true);
-        		return getByPage();
-        	}
-
-        	function getByPage() {
-        		var predicate = null;
-        		if (filter) {
-        			predicate = _invoiceSearchPredicate(filter);
-        		}
-        		var invoices = EntityQuery.from('Invoices')
-					.where(predicate)
-					.take(take)
-					.skip(skip)
-					.orderBy(orderBy)
-					.toType(entityNames.invoice)
-					.using(manager)
-					.executeLocally();
-        		return invoices;
-        	}
-        }
-
-        function getInvoiceCount() {
-        	if (_areInvoicesLoaded()) {
-        		return $q.when(_getLocalEntityCount('Invoices'));
-        	}
-
-        	return EntityQuery.from('Invoices')
-				.take(0)
-				.inlineCount()
-				.using(manager)
-				.execute()
-				.then(_getInlineCount);
-        }
-
-        function _getInlineCount(data) { return data.inlineCount; }
-
-        function _getLocalEntityCount(resource) {
-        	var entities = EntityQuery.from(resource)
-				.using(manager)
-				.executeLocally();
-        	return entities.length;
-        }
-
-        function getInvoiceFilteredCount(filter) {
-        	var predicate = _invoiceSearchPredicate(filter);
-        	var invoices = EntityQuery.from('Invoices')
-				.where(predicate)
-				.using(manager)
-				.executeLocally();
-        	return invoices.length;
-        }
-
-        function _invoiceSearchPredicate(filter) {
-        	return Predicate.create('client.name', 'contains', filter)
-				.or('stringId', 'contains', filter);
-        }
-
-        function getLookups() {
-        	return EntityQuery.from('Lookups')
-				.using(manager).execute()
-				.then(querySucceeded, _queryFailed);
-
-        	function querySucceeded(data) {
-        		log('Retrieved [Lookups]', data, true);
-        		return true;
-        	}
-        }
-
-        function prime() {
-        	if (primePromise) return primePromise;
-
-        	primePromise = $q.all([getLookups(), getClients(true)])
+			primePromise = $q.all([service.lookup.getAll(), service.client.getPartials(true)])
 				.then(extendMetadata)
 				.then(success);
-        	return primePromise;
+			return primePromise;
 
-        	function success() {
-        		setLookups();
-        		log('Primed the data');
-        	}
+			function success() {
+				service.lookup.setLookups();
+				log('Primed the data');
+			}
 
-        	function extendMetadata() {
-        		var metadataStore = manager.metadataStore;
-        		var types = metadataStore.getEntityTypes();
-        		types.forEach(function (type) {
-        			if (type instanceof breeze.EntityType) { set(type.shortName, type) }
-        		});
+			function extendMetadata() {
+				var metadataStore = manager.metadataStore;
+				var types = metadataStore.getEntityTypes();
+				types.forEach(function (type) {
+					if (type instanceof breeze.EntityType) { set(type.shortName, type) }
+				});
 
-        		function set(resourceName, entityName) {
-        			metadataStore.setEntityTypeForResourceName(resourceName, entityName);
-        		}
-        	}
-        }
-
-        function setLookups() {
-        	service.lookupCachedData = {
-        		lineitemdescriptions: _getAllLocal(entityNames.lineitemdescription, 'description')
-        	};
-        }
-
-        function _getAllLocal(resource, ordering, predicate) {
-        	return EntityQuery.from(resource)
-				.where(predicate)
-				.orderBy(ordering)
-				.using(manager)
-				.executeLocally();
-        }
-
-        function _queryFailed(error) {
-        	var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
-        	logError(msg, error);
-        	throw error;
+				function set(resourceName, entityName) {
+					metadataStore.setEntityTypeForResourceName(resourceName, entityName);
+				}
+			}
 		}
-
-        function _areClientsLoaded(value) {
-        	return _areItemsLoaded('clients', value);
-        }
-
-    	function _areInvoicesLoaded(value) {
-    		return _areItemsLoaded('invoices', value);
-    	}
-
-        function _areItemsLoaded(key, value) {
-        	if (value === undefined) {
-        		return storeMeta.isLoaded[key];
-        	}
-        	return storeMeta.isLoaded[key] = value;
-        }
-
-    }
+	}
 })();

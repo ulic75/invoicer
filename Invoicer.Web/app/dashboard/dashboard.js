@@ -32,21 +32,22 @@
         }
 
         function getClientCount() {
-        	return datacontext.getClientCount().then(function (data) {
+        	return datacontext.client.getCount().then(function (data) {
         		return vm.clientCount = data;
         	});
         }
 
         function getInvoiceCount() {
-        	return datacontext.getInvoiceCount().then(function (data) {
+        	return datacontext.invoice.getCount().then(function (data) {
         		return vm.invoiceCount = data;
+        		//return vm.invoiceCount = 13;
         	});
         }
 
 		function getInvoices() {
-			return datacontext.getInvoices().then(function (data) {
-				return vm.content.invoices = data;
-			});
+			//return datacontext.getInvoices().then(function (data) {
+			//	return vm.content.invoices = data;
+			//});
 		}
 
 		function setContentSort(prop) {
