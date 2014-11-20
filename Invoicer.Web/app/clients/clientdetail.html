@@ -1,0 +1,71 @@
+﻿<section class="mainbar" data-ng-controller="clientdetail as vm">
+	<section class="matter">
+		<div class="container">
+			<div class="row">
+				<div class="widget worange">
+					<div data-cc-widget-header title="{{vm.getTitle()}}"></div>
+					<div class="widget-content client">
+						<div class="form-horizontal" role="form">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Name</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.name" class="form-control" placeholder="Name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Alias</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.alias" class="form-control" placeholder="Alias">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Address</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.address1" class="form-control" placeholder="Address">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Address 2</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.address2" class="form-control" placeholder="Address 2">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">City</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.city" class="form-control" placeholder="City">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">State</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.state" class="form-control" placeholder="State">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Postal Code</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.postalCode" class="form-control" placeholder="Postal Code">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Billing Email</label>
+								<div class="col-sm-10">
+									<input data-ng-model="vm.client.billingEmail" class="form-control" placeholder="Billing Email">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Erecords</label>
+								<div class="col-sm-10">
+									<input type="checkbox" data-ng-model="vm.client.eRecords" ng-true-value="1" ng-false-value="0">
+								</div>
+						</div>
+					</div>
+					<div class="widget-foot">
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>

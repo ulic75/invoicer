@@ -42,3 +42,4 @@
 /// <reference path="../app/services/repository.lookup.js" />
 /// <reference path="../app/services/repository.client.js" />
 /// <reference path="../app/services/repository.invoice.js" />
+/// <reference path="../app/clients/clientdetail.js" />

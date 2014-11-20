@@ -46,12 +46,12 @@ select {
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
 }
 
-input[type="radio"], input[type="checkbox"] {
+/*input[type="radio"], input[type="checkbox"] {
     margin: 0 0 0 !important;
     margin-right: 5px !important;
     line-height: 23px !important;
     border: 0 !important;
-}
+}*/
 
 .btn {
     background-image: none !important;
@@ -368,9 +368,9 @@ form {
     margin-left: 15px;
 }
 
-.form-horizontal .control-label {
+/*.form-horizontal .control-label {
     width: 90px;
-}
+}*/
 
 .form-horizontal .controls {
     margin-left: 110px;

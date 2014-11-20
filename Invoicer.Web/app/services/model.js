@@ -21,10 +21,19 @@
 
 		function configureMetadataStore(metadataStore) {
 			// Extend the data
+			registerClient(metadataStore);
 			registerInvoice(metadataStore);
 		}
 
 		//#region Internal Methods
+
+		function registerClient(metadataStore) {
+			metadataStore.registerEntityTypeCtor('Client', Client);
+
+			function Client() {
+				this.isPartial = false;
+			}
+		}
 
 		function registerInvoice(metadataStore) {
 			metadataStore.registerEntityTypeCtor('Invoice', Invoice);

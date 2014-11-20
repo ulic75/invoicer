@@ -1,9 +1,9 @@
 ﻿(function () {
 	'use strict';
 	var controllerId = 'clients';
-	angular.module('app').controller(controllerId, ['common', 'config', 'datacontext', clients]);
+	angular.module('app').controller(controllerId, ['$location', 'common', 'config', 'datacontext', clients]);
 
-	function clients(common, config, datacontext) {
+	function clients($location, common, config, datacontext) {
 		var vm = this;
 		var keyCodes = config.keyCodes;
 		var getLogFn = common.logger.getLogFn;
@@ -12,6 +12,7 @@
 		vm.clients = [];
 		vm.clientSearch = '';
 		vm.filteredClients = [];
+		vm.gotoClient = gotoClient;
 		vm.title = 'Clients';
 		vm.refresh = refresh;
 		vm.search = search;
@@ -29,6 +30,12 @@
 				applyFilter();
 				return vm.clients;
 			});
+		}
+
+		function gotoClient(client) {
+			if (client && client.id) {
+				$location.path('/client/' + client.id);
+			}
 		}
 
 		function refresh() { getClients(true); }

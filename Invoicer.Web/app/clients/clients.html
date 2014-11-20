@@ -13,8 +13,8 @@
 				<div class="widget worange">
 					<div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.filteredClients.length}} / {{vm.clients.length}}"></div>
 					<div class="widget-content client">
-						<div class="padd clearfix" data-ng-repeat="c in vm.filteredClients">
-							<div class="client-details">
+						<div class="padd clearfix" data-ng-repeat="c in vm.filteredClients" data-ng-click="vm.gotoClient(c)">
+							<div class="client-details" title="Go to client details">
 								<div class="pull-left">
 									<h3>{{c.name}}</h3>
 									<h6>{{c.alias}}</h6>

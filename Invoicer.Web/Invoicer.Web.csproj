@@ -129,6 +129,8 @@
     <Content Include="app\admin\admin.html" />
     <Content Include="app\admin\admin.js" />
     <Content Include="app\app.js" />
+    <Content Include="app\clients\clientdetail.html" />
+    <Content Include="app\clients\clientdetail.js" />
     <Content Include="app\clients\clients.html" />
     <Content Include="app\clients\clients.js" />
     <Content Include="app\common\bootstrap\bootstrap.dialog.js" />

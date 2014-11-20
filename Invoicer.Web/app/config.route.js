@@ -55,6 +55,13 @@
             		}
             	}
             }, {
+            	url: '/client/:id',
+            	config: {
+            		title: 'client',
+            		templateUrl: 'app/clients/clientdetail.html',
+            		settings: { }
+            	}
+            }, {
             	url: '/invoices',
             	config: {
             		title: 'invoices',

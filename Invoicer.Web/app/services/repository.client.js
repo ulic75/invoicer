@@ -18,6 +18,7 @@
             // Exposed data access functions
             //this.getAllLocal = getAllLocal;
         	//this.getTopLocal = getTopLocal;
+            this.getById = getById;
             this.getCount = getCount;
             this.getPartials = getPartials;
         }
@@ -31,6 +32,10 @@
             var self = this;
             var predicate = Predicate.create('isSpeaker', '==', true);
             return self._getAllLocal(entityName, orderBy, predicate);
+        }
+
+        function getById(id, forceRemote) {
+        	return this._getById(entityName, id, forceRemote);
         }
 
         function getCount() {
@@ -63,8 +68,10 @@
                 .to$q(querySucceeded, self._queryFailed);
 
             function querySucceeded(data) {
-            	self._areItemsLoaded(true);
-                clients = data.results;
+            	clients = data.results;
+            	for (var i = clients.length; i--;) {
+            		clients[i].isPartial = true;
+            	}
                 self.log('Retrieved [Client Partials] from remote data source', clients.length, true);
                 return clients;
             }
