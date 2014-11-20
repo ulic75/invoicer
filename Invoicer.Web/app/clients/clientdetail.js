@@ -17,11 +17,8 @@
 		vm.isSaving = false;
 		vm.save = save;
 
-		Object.defineProperty(vm, 'canSave', {
-			get: canSave
-		});
-		function canSave() { return vm.hasChanges && !vm.isSaving; }
-
+		Object.defineProperty(vm, 'canSave', { get: canSave	});
+		
 		activate();
 
 		function activate() {
@@ -31,9 +28,9 @@
                 .then(function () { log('Activated Client Detail View'); });
 		}
 
-		function cancel() {
-			datacontext.cancel();
-		}
+		function cancel() {	datacontext.cancel(); }
+
+		function canSave() { return vm.hasChanges && !vm.isSaving; }
 
 		function getClientDetail() {
 			var id = $routeParams.id;
@@ -63,6 +60,7 @@
 		}
 
 		function save() {
+			if (!canSave()) { return $q.when(null); }
 			vm.isSaving = true;
 			return datacontext.save().then(function (saveResult) {
 				vm.isSaving = false;

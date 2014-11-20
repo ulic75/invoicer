@@ -16,7 +16,7 @@
             this.entityName = entityName;
             this.manager = mgr;
             // Exposed data access functions
-            //this.getAllLocal = getAllLocal;
+            this.getAllLocal = getAllLocal;
         	//this.getTopLocal = getTopLocal;
             this.getById = getById;
             this.getCount = getCount;
@@ -27,11 +27,9 @@
 
         return Ctor;
 
-        // Formerly known as datacontext.getLocal()
         function getAllLocal() {
             var self = this;
-            var predicate = Predicate.create('isSpeaker', '==', true);
-            return self._getAllLocal(entityName, orderBy, predicate);
+            return self._getAllLocal(entityName, orderBy);
         }
 
         function getById(id, forceRemote) {

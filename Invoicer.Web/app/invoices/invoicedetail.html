@@ -14,11 +14,16 @@
 					<div class="widget-content invoice">
 						<div class="invoice-details">
 							<h3>{{vm.invoice.id}}</h3>
-							<h6>{{vm.invoice.client.name}}</h6>
+							<div class="form-horizontal">
+								<select data-ng-options="c.id as c.alias for c in vm.clients" data-ng-model="vm.invoice.clientId"></select>
+								<h6>{{vm.invoice.client.name}}</h6>
+							</div>
 							<h6>{{vm.invoice.formattedDate}}</h6>
 							<div class="form-inline" data-ng-repeat="li in vm.invoice.lineItems">
 								<div class="form-group">
-									<input class="form-control" data-ng-model="li.lineItemDescription.description" /><input class="form-control" data-ng-model="li.quantity" /><input class="form-control" data-ng-model="li.unitPrice" />
+									<select data-ng-options="d.id as d.description for d in vm.lineItemDescriptions" data-ng-model="li.descriptionId"></select>
+									<input class="form-control" data-ng-model="li.quantity" />
+									<input class="form-control" data-ng-model="li.unitPrice" />
 								</div>
 							</div>
 							<h6>{{vm.invoice.total}} :: {{vm.invoice.totalPayments}}</h6>

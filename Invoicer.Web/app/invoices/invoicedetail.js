@@ -9,21 +9,21 @@
 		var log = getLogFn(controllerId);
 
 		vm.cancel = cancel;
+		vm.clients = [];
 		vm.getTitle = getTitle;
 		vm.invoice = undefined;
 		vm.goBack = goBack;
 		vm.hasChanges = false;
+		vm.lineItemDescriptions = [];
 		vm.isSaving = false;
 		vm.save = save;
 
-		Object.defineProperty(vm, 'canSave', {
-			get: canSave
-		});
-		function canSave() { return vm.hasChanges && !vm.isSaving; }
-
+		Object.defineProperty(vm, 'canSave', { get: canSave	});
+		
 		activate();
 
 		function activate() {
+			initLookups();
 			onDestroy();
 			onHasChanges();
 			common.activateController([getInvoice()], controllerId)
@@ -32,9 +32,9 @@
                 });
 		}
 
-		function cancel() {
-			datacontext.cancel();
-		}
+		function cancel() {	datacontext.cancel(); }
+
+		function canSave() { return vm.hasChanges && !vm.isSaving; }
 
 		function getInvoice() {
 			var id = $routeParams.id;
@@ -51,6 +51,12 @@
 		
 		function goBack() { $window.history.back(); }
 		
+		function initLookups() {
+			var lookups = datacontext.lookup.lookupCachedData;
+			vm.lineItemDescriptions = lookups.lineitemdescriptions;
+			vm.clients = datacontext.client.getAllLocal(true);
+		}
+
 		function onDestroy() {
 			$scope.$on('$destroy', function () {
 				datacontext.cancel();
@@ -64,6 +70,7 @@
 		}
 
 		function save() {
+			if (!canSave()) { return $q.when(null); }
 			vm.isSaving = true;
 			return datacontext.save().then(function (saveResult) {
 				vm.isSaving = false;
