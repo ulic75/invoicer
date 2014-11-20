@@ -42,6 +42,13 @@
 				this.stringId = "";
 			}
 
+			Object.defineProperty(Invoice.prototype, 'formattedDate', {
+				get: function () {
+					var value = moment(this.date).utc().format('MM/DD/YYYY');
+					return value;
+				}
+			});
+
 			Object.defineProperty(Invoice.prototype, 'total', {
 				get: function () {
 					var value = 0;

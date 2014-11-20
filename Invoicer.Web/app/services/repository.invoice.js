@@ -17,6 +17,7 @@
             this.manager = mgr;
         	// Exposed data access functions
             this.getAll = getAll;
+            this.getById = getById;
             this.getCount = getCount;
             this.getFilteredCount = getFilteredCount;
         }
@@ -77,6 +78,38 @@
                     .executeLocally();
 
         		return invoices;
+        	}
+        }
+
+        function getById(id, forceRemote) {
+        	var self = this;
+        	var manager = self.manager;
+
+        	if (!forceRemote) {
+        		var entity = manager.getEntityByKey(entityName, id);
+        		if (entity) {
+        			self.log('Retrieved [' + entityName + '] id:' + entity.id + ' from cache.', entity, true);
+        			if (entity.entityAspect.entityState.isDeleted()) {
+        				entity = null;
+        			}
+        			return self.$q.when(entity);
+        		}
+        	}
+
+        	return EntityQuery.from('Invoices')
+				.where('id', 'eq', id)
+				.expand(['lineItems', 'lineItems.lineItemDescription', 'payments'])
+				.using(manager).execute()
+				.then(querySucceeded, self._queryFailed);
+
+        	function querySucceeded(data) {
+        		var entity = data.results[0];
+        		if (!entity) {
+        			self.log('Could not find [' + entityName + '] id:' + id, null, true);
+        			return null;
+        		}
+        		self.log('Retrieved [' + entityName + '] id:' + entity.id + ' from remote data source.', entity, true);
+        		return entity;
         	}
         }
 

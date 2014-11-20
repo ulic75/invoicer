@@ -1,15 +1,16 @@
 ﻿(function () {
 	'use strict';
 	var controllerId = 'invoices';
-	angular.module('app').controller(controllerId, ['$routeParams', 'common', 'config', 'datacontext', invoices]);
+	angular.module('app').controller(controllerId, ['$location', '$routeParams', 'common', 'config', 'datacontext', invoices]);
 
-	function invoices($routeParams, common, config, datacontext) {
+	function invoices($location, $routeParams, common, config, datacontext) {
 		var vm = this;
 		var keyCodes = config.keyCodes;
 		var getLogFn = common.logger.getLogFn;
 		var log = getLogFn(controllerId);
 
 		vm.filteredInvoices = [];
+		vm.gotoInvoice = gotoInvoice;
 		vm.invoices = [];
 		vm.invoiceCount = 0;
 		vm.invoiceFilteredCount = 0;
@@ -58,6 +59,12 @@
 				getInvoiceFilteredCount();
 				return data;
 			});
+		}
+
+		function gotoInvoice(invoice) {
+			if (invoice && invoice.id) {
+				$location.path('/invoice/' + invoice.id);
+			}
 		}
 
 		function refresh() { getInvoices(true); }

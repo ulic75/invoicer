@@ -142,6 +142,8 @@
     <Content Include="app\config.route.js" />
     <Content Include="app\dashboard\dashboard.html" />
     <Content Include="app\dashboard\dashboard.js" />
+    <Content Include="app\invoices\invoicedetail.js" />
+    <Content Include="app\invoices\invoicedetail.html" />
     <Content Include="app\invoices\invoices.html" />
     <Content Include="app\invoices\invoices.js" />
     <Content Include="app\layout\shell.html" />

@@ -16,11 +16,11 @@
 						 right-text="Page {{vm.paging.currentPage}} of {{vm.paging.pageCount}}">
 					</div>
 					<div class="widget-content invoice">
-						<div class="padd" data-ng-repeat="i in vm.invoices">
-							<div class="invoice-details">
+						<div class="padd" data-ng-repeat="i in vm.invoices" data-ng-click="vm.gotoInvoice(i)">
+							<div class="invoice-details" title="Go to invoice">
 								<h3>{{i.id}}</h3>
 								<h6>{{i.client.name}}</h6>
-								<h6>{{i.date}}</h6>
+								<h6>{{i.formattedDate}}</h6>
 								<h6>{{i.total}} :: {{i.totalPayments}}</h6>
 							</div>
 						</div>

@@ -72,6 +72,13 @@
             		}
             	}
             }, {
+            	url: '/invoice/:id',
+            	config: {
+            		title: 'invoices',
+            		templateUrl: 'app/invoices/invoicedetail.html',
+            		settings: { }
+            	}
+            }, {
             	url: '/invoices/search/:id',
             	config: {
             		title: 'invoices-search',

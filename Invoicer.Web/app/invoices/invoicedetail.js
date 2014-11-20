@@ -1,17 +1,16 @@
 ﻿(function () {
 	'use strict';
-	var controllerId = 'clientdetail';
-	angular.module('app').controller(controllerId, ['$routeParams', '$scope', '$window', 'common', 'config', 'datacontext', clientdetail]);
+	var controllerId = 'invoicedetail';
+	angular.module('app').controller(controllerId, ['$routeParams', '$scope', '$window', 'common', 'config', 'datacontext', invoicedetail]);
 
-	function clientdetail($routeParams, $scope, $window, common, config, datacontext) {
+	function invoicedetail($routeParams, $scope, $window, common, config, datacontext) {
 		var vm = this;
 		var getLogFn = common.logger.getLogFn;
 		var log = getLogFn(controllerId);
-		var logError = getLogFn(controllerId, 'error');
 
 		vm.cancel = cancel;
-		vm.client = undefined;
 		vm.getTitle = getTitle;
+		vm.invoice = undefined;
 		vm.goBack = goBack;
 		vm.hasChanges = false;
 		vm.isSaving = false;
@@ -27,27 +26,29 @@
 		function activate() {
 			onDestroy();
 			onHasChanges();
-			common.activateController([getClientDetail()], controllerId)
-                .then(function () { log('Activated Client Detail View'); });
+			common.activateController([getInvoice()], controllerId)
+                .then(function () {
+                	log('Activated Invoice View');
+                });
 		}
 
 		function cancel() {
 			datacontext.cancel();
 		}
 
-		function getClientDetail() {
+		function getInvoice() {
 			var id = $routeParams.id;
-			return datacontext.client.getById(id).then(function (data) {
-				vm.client = data;
+			return datacontext.invoice.getById(id).then(function (data) {
+				vm.invoice = data;
 			}), function (error) {
-				logError('Unable to get client ' + id);
+				logError('Unable to get invoice ' + id);
 			}
 		}
 
 		function getTitle() {
-			return 'Edit ' + ((vm.client && vm.client.name) || '');
+			return 'Edit Invoice ' + ((vm.invoice && vm.invoice.id) || '');
 		}
-
+		
 		function goBack() { $window.history.back(); }
 		
 		function onDestroy() {
