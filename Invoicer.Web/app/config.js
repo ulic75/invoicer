@@ -29,7 +29,8 @@
     var remoteServiceName = 'breeze/Breeze';
 
     var events = {
-        controllerActivateSuccess: 'controller.activateSuccess',
+    	controllerActivateSuccess: 'controller.activateSuccess',
+		hasChangesChanged: 'datacontext.hasChangesChanged',
         spinnerToggle: 'spinner.toggle'
     };
 
