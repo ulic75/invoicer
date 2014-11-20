@@ -16,20 +16,21 @@
             this.entityName = entityName;
             this.manager = mgr;
             // Exposed data access functions
-            this.getAllLocal = getAllLocal;
+            this.getActiveLocal = getActiveLocal;
         	//this.getTopLocal = getTopLocal;
             this.getById = getById;
             this.getCount = getCount;
-            this.getPartials = getPartials;
+            this.getAll = getAll;
         }
 
         AbstractRepository.extend(Ctor);
 
         return Ctor;
 
-        function getAllLocal() {
-            var self = this;
-            return self._getAllLocal(entityName, orderBy);
+        function getActiveLocal() {
+        	var self = this;
+        	var predicate = Predicate.create('active', '==', 1);
+            return self._getAllLocal(entityName, orderBy, predicate);
         }
 
         function getById(id, forceRemote) {
@@ -48,7 +49,7 @@
         }
 
         // Formerly known as datacontext.getSpeakerPartials()
-        function getPartials(forceRemote) {
+        function getAll(forceRemote) {
         	var self = this;
         	var clients = [];
             var clientOrderBy = 'alias';
@@ -59,7 +60,6 @@
             }
 
             return EntityQuery.from('Clients')
-                .select('id, name, alias')
                 .orderBy(clientOrderBy)
                 .toType(entityName)
                 .using(self.manager).execute()

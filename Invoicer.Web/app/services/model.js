@@ -23,6 +23,7 @@
 			// Extend the data
 			registerClient(metadataStore);
 			registerInvoice(metadataStore);
+			registerLineItem(metadataStore);
 		}
 
 		//#region Internal Methods
@@ -69,6 +70,20 @@
 				}
 			});
 
+		}
+
+		function registerLineItem(metadataStore) {
+			metadataStore.registerEntityTypeCtor('LineItem', LineItem);
+
+			function LineItem() {
+			}
+
+			Object.defineProperty(LineItem.prototype, 'total', {
+				get: function () {
+					var value = this.unitPrice * this.quantity;
+					return value;
+				}
+			});
 		}
 
 		//#endregion

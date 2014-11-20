@@ -25,7 +25,7 @@
 		}
 
 		function getClients(forceRefresh) {
-			return datacontext.client.getPartials(forceRefresh).then(function (data) {
+			return datacontext.client.getAll(forceRefresh).then(function (data) {
 				vm.clients = data;
 				applyFilter();
 				return vm.clients;

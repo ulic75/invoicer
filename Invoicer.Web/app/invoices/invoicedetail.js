@@ -18,7 +18,8 @@
 		vm.isSaving = false;
 		vm.save = save;
 
-		Object.defineProperty(vm, 'canSave', { get: canSave	});
+		Object.defineProperty(vm, 'canSave', { get: canSave });
+		Object.defineProperty(vm, 'displayId', { get: displayId });
 		
 		activate();
 
@@ -36,8 +37,16 @@
 
 		function canSave() { return vm.hasChanges && !vm.isSaving; }
 
+		function displayId() {
+			return ((vm.invoice && vm.invoice.id !== -1 && vm.invoice.id) || '');
+		}
+
 		function getInvoice() {
 			var id = $routeParams.id;
+			if (id === 'new') {
+				vm.invoice = datacontext.invoice.create();
+				return vm.invoice;
+			}
 			return datacontext.invoice.getById(id).then(function (data) {
 				vm.invoice = data;
 			}), function (error) {
@@ -46,7 +55,7 @@
 		}
 
 		function getTitle() {
-			return 'Edit Invoice ' + ((vm.invoice && vm.invoice.id) || '');
+			return 'Edit Invoice #' + vm.displayId;
 		}
 		
 		function goBack() { $window.history.back(); }
@@ -54,7 +63,7 @@
 		function initLookups() {
 			var lookups = datacontext.lookup.lookupCachedData;
 			vm.lineItemDescriptions = lookups.lineitemdescriptions;
-			vm.clients = datacontext.client.getAllLocal(true);
+			vm.clients = datacontext.client.getActiveLocal();
 		}
 
 		function onDestroy() {

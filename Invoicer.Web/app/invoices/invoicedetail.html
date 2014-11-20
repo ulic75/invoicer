@@ -13,20 +13,38 @@
 					</div>
 					<div class="widget-content invoice">
 						<div class="invoice-details">
-							<h3>{{vm.invoice.id}}</h3>
+							<h3>{{vm.displayId}}</h3>
 							<div class="form-horizontal">
 								<select data-ng-options="c.id as c.alias for c in vm.clients" data-ng-model="vm.invoice.clientId"></select>
 								<h6>{{vm.invoice.client.name}}</h6>
 							</div>
 							<h6>{{vm.invoice.formattedDate}}</h6>
-							<div class="form-inline" data-ng-repeat="li in vm.invoice.lineItems">
-								<div class="form-group">
-									<select data-ng-options="d.id as d.description for d in vm.lineItemDescriptions" data-ng-model="li.descriptionId"></select>
-									<input class="form-control" data-ng-model="li.quantity" />
-									<input class="form-control" data-ng-model="li.unitPrice" />
+							<div class="row" data-ng-repeat="li in vm.invoice.lineItems">
+								<div class="col-xs-7">
+									<select class="form-control input-sm" data-ng-options=" d.id as d.description for d in vm.lineItemDescriptions" data-ng-model="li.descriptionId"></select>
+								</div>
+								<div class="col-xs-1">
+									<input class="form-control input-sm text-right" data-ng-model="li.quantity" />
+								</div>
+								<div class="col-xs-2">
+									<input class="form-control input-sm text-right" data-ng-model="li.unitPrice" ng-currency/>
+								</div>
+								<div class="col-xs-2">
+									<p class="form-control-static input-sm text-right">{{li.total | currency}}</p>
 								</div>
 							</div>
-							<h6>{{vm.invoice.total}} :: {{vm.invoice.totalPayments}}</h6>
+							<div class="row">
+								<div class="col-xs-2 col-xs-offset-8 form-control-static text-right">Subtotal:</div>
+								<div class="col-xs-2 form-control-static text-right">{{vm.invoice.total | currency}}</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-2 col-xs-offset-8 form-control-static text-right">Payments:</div>
+								<div class="col-xs-2 form-control-static text-right">{{vm.invoice.totalPayments | currency}}</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-2 col-xs-offset-8 form-control-static text-right">Grand Total:</div>
+								<div class="col-xs-2 form-control-static text-right">{{vm.invoice.total - vm.invoice.totalPayments | currency}}</div>
+							</div>
 						</div>
 					</div>
 					<div class="widget-foot">

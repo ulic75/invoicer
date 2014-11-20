@@ -68,7 +68,7 @@
 		function prime() {
 			if (primePromise) return primePromise;
 
-			primePromise = $q.all([service.lookup.getAll(), service.client.getPartials(true)])
+			primePromise = $q.all([service.lookup.getAll(), service.client.getAll(true)])
 				.then(extendMetadata)
 				.then(success);
 			return primePromise;

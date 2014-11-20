@@ -40,7 +40,6 @@
         function getInvoiceCount() {
         	return datacontext.invoice.getCount().then(function (data) {
         		return vm.invoiceCount = data;
-        		//return vm.invoiceCount = 13;
         	});
         }
 

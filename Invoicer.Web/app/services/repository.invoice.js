@@ -16,6 +16,7 @@
             this.entityName = entityName;
             this.manager = mgr;
         	// Exposed data access functions
+            this.create = create;
             this.getAll = getAll;
             this.getById = getById;
             this.getCount = getCount;
@@ -26,7 +27,15 @@
 
         return Ctor;
 
-        // Formerly known as datacontext.getLocal()
+        function create() {
+        	var endOfLastMonth = moment().utc().subtract(1, 'month').endOf('month')
+        	var invoice = this.manager.createEntity(entityName, {date: endOfLastMonth});
+        	var lineitem = invoice.getProperty('lineItems');
+        	lineitem.push(this.manager.createEntity('LineItem', { unitPrice: 65, quantity: 1, descriptionId: 2 }));
+        	//lineitem.invoice(invoice);
+        	return invoice;
+        }
+        
         function getAllLocal() {
             var self = this;
             var predicate = Predicate.create('isSpeaker', '==', true);
