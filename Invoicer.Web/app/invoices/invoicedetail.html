@@ -13,13 +13,45 @@
 					</div>
 					<div class="widget-content invoice">
 						<div class="invoice-details">
-							<h3>{{vm.displayId}}</h3>
-							<div class="form-horizontal">
-								<select data-ng-options="c.id as c.alias for c in vm.clients" data-ng-model="vm.invoice.clientId"></select>
-								<h6>{{vm.invoice.client.name}}</h6>
+							<div class="row form-inline col-xs-12">
+								<div class="form-control-static" style="width: 65px;">Date:</div>
+								<div class="form-control-static">{{vm.invoice.formattedDate}}</div>
 							</div>
-							<h6>{{vm.invoice.formattedDate}}</h6>
-							<div class="row" data-ng-repeat="li in vm.invoice.lineItems">
+							<div class="row form-inline col-xs-12">
+								<div class="form-control-static" style="width: 65px;">Invoice #:</div>
+								<div class="form-control-static">{{vm.displayId}}</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3 form-group-sm">
+									<ui-select ng-model="vm.invoice.client">
+										<ui-select-match placeholder="Customer...">{{$select.selected.alias}}</ui-select-match>
+										<ui-select-choices repeat="client in vm.clients | filter: {alias: $select.search}">
+											<div ng-bind-html="client.alias | highlight: $select.search"></div>
+										</ui-select-choices>
+									</ui-select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-5">{{vm.invoice.client.name}}</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-5">{{vm.invoice.client.address1}}</div>
+							</div>
+							<div class="row" ng-show="vm.invoice.client.address2">
+								<div class="col-xs-5">{{vm.invoice.client.address2}}</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-5">
+									<div>{{vm.invoice.client.city}}, {{vm.invoice.client.state}} {{vm.invoice.client.postalCode}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-7 form-control-static">Description</div>
+								<div class="col-xs-1 form-control-static text-right">Quantity</div>
+								<div class="col-xs-2 form-control-static text-right">Unit Price</div>
+								<div class="col-xs-2 form-control-static text-right">Total</div>
+							</div>
+							<div class="row form-group-sm" data-ng-repeat="li in vm.invoice.lineItems">
 								<div class="col-xs-7">
 									<select class="form-control" data-ng-options=" d.id as d.description for d in vm.lineItemDescriptions" data-ng-model="li.descriptionId"></select>
 								</div>
@@ -27,20 +59,20 @@
 									<input class="form-control text-right" data-ng-model="li.quantity" />
 								</div>
 								<div class="col-xs-2">
-									<input class="form-control text-right" data-ng-model="li.unitPrice" ng-currency/>
+									<input class="form-control text-right" data-ng-model="li.unitPrice" ng-currency min="-10000000" />
 								</div>
 								<div class="col-xs-2 form-control-static text-right">{{li.total | currency}}</div>
 							</div>
-							<div class="row">
+							<div class="row form-group-sm">
 								<div class="col-xs-2 col-xs-offset-8 form-control-static text-right">Subtotal:</div>
 								<div class="col-xs-2 form-control-static text-right">{{vm.invoice.total | currency}}</div>
 							</div>
-							<div class="row">
+							<div class="row form-group-sm">
 								<div class="col-xs-2 col-xs-offset-8 form-control-static text-right">Payments:</div>
 								<div class="col-xs-2 form-control-static text-right">{{vm.invoice.totalPayments | currency}}</div>
 							</div>
-							<div class="row">
-								<div class="col-xs-2 col-xs-offset-8 form-control-static text-right">Grand Total:</div>
+							<div class="row form-group-sm">
+								<div class="col-xs-2 col-xs-offset-8 form-control-static text-right">Amount Due:</div>
 								<div class="col-xs-2 form-control-static text-right">{{vm.invoice.total - vm.invoice.totalPayments | currency}}</div>
 							</div>
 						</div>

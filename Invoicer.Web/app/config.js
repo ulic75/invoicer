@@ -45,6 +45,10 @@
 
     app.value('config', config);
     
+    //app.config(function (uiSelectConfig) {
+    //	uiSelectConfig.theme = 'bootstrap';
+    //});
+
     app.config(['$logProvider', function ($logProvider) {
         // turn debugging off/on (no info or warn)
         if ($logProvider.debugEnabled) {

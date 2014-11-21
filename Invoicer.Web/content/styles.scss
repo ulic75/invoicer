@@ -87,6 +87,13 @@ textarea.form-control {
     display: block;
 }*/
 
+.form-group-sm .form-control-static {
+	height: 30px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 3px;
+}
+
 .widget .padd {
     /*margin-bottom: 0;*/
     /*padding: 1em 0;*/
@@ -110,7 +117,7 @@ textarea.form-control {
     margin-right: 8px;
 }
 
-.btn {
+/*.btn {
     margin-right: 4px;
     margin-left: 4px;
 }
@@ -121,7 +128,7 @@ textarea.form-control {
 
 .btn-group{
     margin: .2em;
-}
+}*/
 
 
 small {
@@ -294,7 +301,7 @@ small {
     color: #F58A00;
 }
 
-.fa-asterisk.fa-asterisk-alert {
+.fa-asterisk.fa-asterisk-alert, .fa-asterisk {
     color: #F58A00;
 }
 

@@ -31,11 +31,11 @@ input, select {
     text-shadow: none !important;
 }
 
-form * {
+/*form * {
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-}
+}*/
 
-input, textarea {
+/*input, textarea {
     background-image: none !important;
     border: 1px solid #ccc !important;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
@@ -44,7 +44,7 @@ input, textarea {
 select {
     font-size: 13px !important;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-}
+}*/
 
 /*input[type="radio"], input[type="checkbox"] {
     margin: 0 0 0 !important;
@@ -53,7 +53,7 @@ select {
     border: 0 !important;
 }*/
 
-.btn {
+/*.btn {
     background-image: none !important;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     font-size: 13px !important;
@@ -61,7 +61,7 @@ select {
 
     .btn.btn-mini {
         font-size: 11px !important;
-    }
+    }*/
 
 body {
     font-size: 13px;
@@ -351,7 +351,7 @@ a.btn {
 
 /* Form */
 
-form {
+/*form {
     margin: 10px;
 }
 
@@ -368,9 +368,9 @@ form {
     margin-left: 15px;
 }
 
-/*.form-horizontal .control-label {
+.form-horizontal .control-label {
     width: 90px;
-}*/
+}
 
 .form-horizontal .controls {
     margin-left: 110px;
@@ -388,7 +388,7 @@ form {
     padding: 5px 20px 5px;
     background: transparent;
     border-top: 0;
-}
+}*/
 
 /* Back to top */
 
@@ -507,10 +507,10 @@ form {
                 color: #888;
             }
 
-    .dropdown-menu a:hover, .dropdown-menu a:focus {
+    /*.dropdown-menu a:hover, .dropdown-menu a:focus {
         filter: none !important;
         background: #fff !important;
-    }
+    }*/
 
     .dropdown-menu::after, .dropdown-menu::before {
         border: none !important;
@@ -1084,9 +1084,9 @@ form {
         padding-right: 20px;
     }
 
-    .form-inline button {
+    /*.form-inline button {
         margin-left: 0;
-    }
+    }*/
 
     .navbar {
         margin-top: 0 !important;
@@ -1156,7 +1156,7 @@ form {
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-    .form {
+    /*.form {
         margin: 0 !important;
     }
 
@@ -1177,7 +1177,7 @@ form {
 
     form .form-actions {
         padding-left: 0 !important;
-    }
+    }*/
 
     .navbar {
         margin-top: 0 !important;

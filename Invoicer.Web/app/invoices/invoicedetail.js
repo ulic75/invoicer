@@ -16,6 +16,7 @@
 		vm.hasChanges = false;
 		vm.lineItemDescriptions = [];
 		vm.isSaving = false;
+		vm.onClientSelect = onClientSelect;
 		vm.save = save;
 
 		Object.defineProperty(vm, 'canSave', { get: canSave });
@@ -65,6 +66,11 @@
 			vm.lineItemDescriptions = lookups.lineitemdescriptions;
 			vm.clients = datacontext.client.getActiveLocal();
 		}
+
+		function onClientSelect(item, model, label) {
+			vm.invoice.client = item;
+			console.log(vm.invoice.client.id, item.id);
+		};
 
 		function onDestroy() {
 			$scope.$on('$destroy', function () {

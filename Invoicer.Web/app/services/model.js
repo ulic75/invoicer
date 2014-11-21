@@ -45,7 +45,7 @@
 
 			Object.defineProperty(Invoice.prototype, 'formattedDate', {
 				get: function () {
-					var value = moment(this.date).utc().format('MM/DD/YYYY');
+					var value = moment(this.date).utc().format('M/D/YYYY');
 					return value;
 				}
 			});
