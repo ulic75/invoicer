@@ -82,10 +82,11 @@ textarea.form-control {
 .map {
   height: 228px; }
 
-.btn > i {
-  margin-right: 8px; }
+/*.btn > i {
+    margin-right: 8px;
+}
 
-/*.btn {
+.btn {
     margin-right: 4px;
     margin-left: 4px;
 }

@@ -31,18 +31,17 @@
 									</ui-select>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-xs-5">{{vm.invoice.client.name}}</div>
+							<div class="row" ng-show="vm.invoice.client">
+								<div class=" col-xs-5">{{vm.invoice.client.name}}</div>
 							</div>
-							<div class="row">
-								<div class="col-xs-5">{{vm.invoice.client.address1}}</div>
+							<div class="row" ng-show="vm.invoice.client">
+								<div class=" col-xs-5">{{vm.invoice.client.address1}}</div>
 							</div>
 							<div class="row" ng-show="vm.invoice.client.address2">
 								<div class="col-xs-5">{{vm.invoice.client.address2}}</div>
 							</div>
-							<div class="row">
-								<div class="col-xs-5">
-									<div>{{vm.invoice.client.city}}, {{vm.invoice.client.state}} {{vm.invoice.client.postalCode}}</div>
+							<div class="row" ng-show="vm.invoice.client">
+								<div class=" col-xs-5">{{vm.invoice.client.city}}, {{vm.invoice.client.state}} {{vm.invoice.client.postalCode}}
 								</div>
 							</div>
 							<div class="row">
