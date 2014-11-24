@@ -41,6 +41,7 @@
 
 			function Invoice() {
 				this.stringId = "";
+				this.outstanding = 0;
 			}
 
 			Object.defineProperty(Invoice.prototype, 'formattedDate', {

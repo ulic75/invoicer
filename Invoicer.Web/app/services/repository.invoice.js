@@ -36,13 +36,7 @@
         	return invoice;
         }
         
-        function getAllLocal() {
-            var self = this;
-            var predicate = Predicate.create('isSpeaker', '==', true);
-            return self._getAllLocal(entityName, orderBy, predicate);
-        }
-
-        function getAll(forceRemote, page, size, filter) {
+        function getAll(forceRemote, page, size, filter, outstanding) {
         	var self = this;
         	// Only return a page worth of attendees
         	var take = size || 20;
@@ -55,7 +49,7 @@
 
         	// Load all invoices to cache via remote query
         	return EntityQuery.from('Invoices')
-                //.select('id, payments')
+				.where('date', 'gt', '2/1/2013')
                 .orderBy(orderBy)
 				.expand(['lineItems', 'lineItems.lineItemDescription', 'payments'])
                 .toType(entityName)
@@ -67,6 +61,7 @@
         		var invoices = data.results;
         		for (var i = invoices.length; i--;) {
         			invoices[i].stringId = invoices[i].id;
+        			invoices[i].outstanding = invoices[i].total - invoices[i].totalPayments;
         		}
         		self.log('Retrieved [Invoice] from remote data source', invoices.length, true);
         		return getByPage();
@@ -78,6 +73,8 @@
         		if (filter) {
         			predicate = _searchPredicate(filter);
         		}
+       			var oPredicate = _outstandingPredicate(outstanding);
+       			predicate = Predicate.and(predicate, oPredicate);
 
         		var invoices = EntityQuery.from(entityName)
                     .where(predicate)
@@ -133,8 +130,8 @@
 				.then(self._getInlineCount);
         }
 
-    	function getFilteredCount(filter) {
-    		var predicate = _searchPredicate(filter);
+    	function getFilteredCount(filter, outstanding) {
+    		var predicate = Predicate.and(_searchPredicate(filter),_outstandingPredicate(outstanding));
     		var invoices = EntityQuery.from('Invoices')
     			.where(predicate)
     			.using(this.manager)
@@ -147,5 +144,8 @@
     			.or('stringId', 'contains', filter);
     	}
 
+    	function _outstandingPredicate(outstanding) {
+    		return Number(outstanding) === 1 ? Predicate.create('outstanding', 'gt', 0) : null;
+    	}
     }
 })();

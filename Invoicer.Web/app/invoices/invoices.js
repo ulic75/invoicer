@@ -15,6 +15,8 @@
 		vm.invoiceCount = 0;
 		vm.invoiceFilteredCount = 0;
 		vm.invoicesSearch = $routeParams.id || '';
+		vm.outstanding = 1;
+		vm.outstandingChanged = outstandingChanged;
 		vm.pageChanged = pageChanged;
 		vm.paging = {
 			currentPage: 1,
@@ -47,11 +49,11 @@
 		}
 
 		function getInvoiceFilteredCount() {
-			vm.invoiceFilteredCount = datacontext.invoice.getFilteredCount(vm.invoicesSearch);
+			vm.invoiceFilteredCount = datacontext.invoice.getFilteredCount(vm.invoicesSearch, vm.outstanding);
 		}
 
 		function getInvoices(forceRefresh) {
-			return datacontext.invoice.getAll(forceRefresh, vm.paging.currentPage, vm.paging.pageSize, vm.invoicesSearch).then(function (data) {
+			return datacontext.invoice.getAll(forceRefresh, vm.paging.currentPage, vm.paging.pageSize, vm.invoicesSearch, vm.outstanding).then(function (data) {
 				vm.invoices = data;
 				if (!vm.invoiceCount || forceRefresh) {
 					getInvoiceCount();
@@ -67,12 +69,7 @@
 			}
 		}
 
-		function refresh() { getInvoices(true); }
-
-		function search($event) {
-			if ($event.keyCode === keyCodes.esc) {
-				vm.invoicesSearch = '';
-			}
+		function outstandingChanged() {
 			getInvoices();
 		}
 
@@ -82,5 +79,13 @@
 			getInvoices();
 		}
 
+		function refresh() { getInvoices(true); }
+
+		function search($event) {
+			if ($event.keyCode === keyCodes.esc) {
+				vm.invoicesSearch = '';
+			}
+			getInvoices();
+		}
 	}
 })();
