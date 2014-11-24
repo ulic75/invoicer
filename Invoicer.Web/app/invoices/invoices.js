@@ -19,7 +19,7 @@
 		vm.paging = {
 			currentPage: 1,
 			maxPagesToShow: 5,
-			pageSize: 5
+			pageSize: 20
 		}
 		vm.search = search;
 		vm.title = 'Invoices';

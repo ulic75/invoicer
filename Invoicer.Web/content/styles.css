@@ -115,12 +115,12 @@ small {
   clear: right;
   float: right; }
 
-.widget-content .padd:hover {
+.widget-content .padd:hover, .widget-content .invoice-details:hover {
   cursor: pointer;
   color: white;
   background-color: #52b9e9; }
 
-.widget-content .padd:hover * {
+.widget-content .padd:hover *, .widget-content .invoice-details:hover * {
   color: white; }
 
 .list-flow {
