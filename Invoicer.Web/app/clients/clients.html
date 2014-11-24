@@ -2,8 +2,13 @@
 	<section class="matter">
 		<div class="container">
 			<div class="row">
-				<div class="form-search">
-					<input class="input-sm search-query" data-ng-model="vm.clientSearch" data-ng-keyup="vm.search($event)" placeholder="Client search..." />
+				<div class="form-search form-inline">
+					<input class="form-control input-sm" data-ng-model="vm.clientSearch" data-ng-keyup="vm.search($event)" placeholder="Client search..." />
+					<select class="form-control" ng-model="vm.active" ng-change="vm.activeChanged()">
+						<option value="2">All</option>
+						<option value="1">Active</option>
+						<option value="0">Inactive</option>
+					</select>
 					<div class="btn-group pull-right">
 						<a class="btn btn-info" data-ng-click="vm.refresh()"><i class="fa fa-refresh"></i> Refresh</a>
 					</div>
@@ -23,7 +28,7 @@
 								<div class="pull-right hidden-xs">
 									<small class="right">{{c.address1}}</small>
 									<small class="right">{{c.address2}}</small>
-									<small class="right">{{c.city}}, {{c.state}} {{c.postalcode}}</small>
+									<small class="right">{{c.city}}, {{c.state}} {{c.postalCode}}</small>
 								</div>
 							</div>
 						</div>
