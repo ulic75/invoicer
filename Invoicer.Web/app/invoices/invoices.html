@@ -25,15 +25,15 @@
 							<thead>
 								<th>Invoice #</th>
 								<th>Client</th>
-								<th>Date</th>
-								<th>Outstanding</th>
+								<th class="text-right">Date</th>
+								<th class="text-right">Outstanding</th>
 							</thead>
 							<tbody>
 								<tr class="invoice-details" ng-repeat="i in vm.invoices" ng-click="vm.gotoInvoice(i)">
 									<td>{{i.id}}</td>
 									<td>{{i.client.name}}</td>
-									<td>{{i.formattedDate}}</td>
-									<td>{{i.total - i.totalPayments}}</td>
+									<td class="text-right">{{i.formattedDate}}</td>
+									<td class="text-right">{{i.total - i.totalPayments | currency}}</td>
 								</tr>
 							</tbody>
 						</table>
