@@ -39,7 +39,7 @@
         		return;
         	}
         	if ($event.type === 'click' || $event.keyCode === keyCodes.enter) {
-        		var route = '/invoices/search/';
+        		var route = '/invoice/';
         		$location.path(route + vm.searchText);
         		return;
         	}

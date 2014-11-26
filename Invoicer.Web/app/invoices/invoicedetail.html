@@ -12,7 +12,10 @@
 					<div data-cc-widget-header title="{{vm.getTitle()}}">
 					</div>
 					<div class="widget-content invoice">
-						<div>
+						<div ng-hide="vm.invoice">
+							No invoice found
+						</div>
+						<div ng-show="vm.invoice">
 							<div class="row form-inline col-xs-12">
 								<div class="form-control-static" style="width: 65px;">Date:</div>
 								<div class="form-control-static">{{vm.invoice.formattedDate}}</div>
@@ -55,7 +58,7 @@
 									<select class="form-control" data-ng-options=" d.id as d.description for d in vm.lineItemDescriptions" data-ng-model="li.descriptionId"></select>
 								</div>
 								<div class="col-xs-1">
-									<input class="form-control text-right" data-ng-model="li.quantity" />
+									<input class="form-control text-right" data-ng-model="li.quantity" numbers-only />
 								</div>
 								<div class="col-xs-2">
 									<input class="form-control text-right" data-ng-model="li.unitPrice" ng-currency min="-10000000" />
