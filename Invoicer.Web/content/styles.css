@@ -38,7 +38,9 @@ body {
   margin-top: -2px; }
 
 .sidebar .sidebar-inner {
-  background-color: #333; }
+  background-color: #333;
+  position: fixed;
+  width: 230px; }
 
 .sidebar-filler {
   z-index: -1;
@@ -422,6 +424,9 @@ input[type=number] {
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0; }
+
+.mainbar {
+  min-height: inherit; }
 
 /*#endregion */
 /*# sourceMappingURL=styles.css.map */

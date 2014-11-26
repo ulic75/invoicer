@@ -51,6 +51,8 @@ body {
 
     .sidebar .sidebar-inner {
         background-color: #333;
+		position: fixed;
+		width: 230px;
     }
 
 .sidebar-filler {
@@ -582,4 +584,9 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none; 
   margin: 0; 
 }
+
+.mainbar {
+	min-height: inherit;
+}
+
 /*#endregion */
