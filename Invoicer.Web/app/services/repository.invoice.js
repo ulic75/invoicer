@@ -73,7 +73,7 @@
         		if (filter) {
         			predicate = _searchPredicate(filter);
         		}
-       			var oPredicate = _outstandingPredicate(outstanding);
+       			var oPredicate = _statusPredicate(outstanding);
        			predicate = Predicate.and(predicate, oPredicate);
 
         		var invoices = EntityQuery.from(entityName)
@@ -130,8 +130,8 @@
 				.then(self._getInlineCount);
         }
 
-    	function getFilteredCount(filter, outstanding) {
-    		var predicate = Predicate.and(_searchPredicate(filter),_outstandingPredicate(outstanding));
+    	function getFilteredCount(filter, status) {
+    		var predicate = Predicate.and(_searchPredicate(filter),_statusPredicate(status));
     		var invoices = EntityQuery.from('Invoices')
     			.where(predicate)
     			.using(this.manager)
@@ -144,8 +144,20 @@
     			.or('stringId', 'contains', filter);
     	}
 
-    	function _outstandingPredicate(outstanding) {
-    		return Number(outstanding) === 1 ? Predicate.create('outstanding', 'gt', 0) : null;
+    	function _statusPredicate(status) {
+    		var predicate;
+    		switch(Number(status)) {
+				case 1:
+					predicate = Predicate.create('outstanding', 'gt', 0);
+					break;
+				case 2:
+					predicate = Predicate.create('outstanding', 'eq', 0);
+					break;
+				//case 3:
+				//	predicate = Predicate.create('archived', 'eq', 1);
+				//	break;
+			}
+    		return predicate;
     	}
     }
 })();

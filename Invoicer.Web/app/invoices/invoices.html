@@ -4,9 +4,11 @@
 			<div class="row">
 				<div class="form-search form-inline form-group-sm">
 					<input class="form-control" data-ng-model="vm.invoicesSearch" data-ng-keyup="vm.search($event)" placeholder="Filter client or invoice #" />
-					<select class="form-control" ng-model="vm.outstanding" ng-change="vm.outstandingChanged()">
+					<select class="form-control" ng-model="vm.status" ng-change="vm.statusChanged()">
 						<option value="0">All</option>
-						<option value="1">Outstanding</option>
+						<option value="1">Unpaid</option>
+						<option value="2">Paid</option>
+						<option value="3">Archived</option>
 					</select>
 					<div class="btn-group pull-right">
 						<a class="btn btn-info" ng-click="vm.refresh()"><i class="fa fa-refresh"></i> Refresh</a>
